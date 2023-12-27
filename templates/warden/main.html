@@ -215,9 +215,12 @@
                 document.getElementById('main').style.opacity = "1";
                 document.getElementById('loader').style.display = "none";
         
-                var navigation = performance.getEntriesByType("navigation")[0];
-                if (navigation && navigation.type === 'back_forward') {
-                    location.reload();
+                // Check if the page has already been refreshed
+                if (!sessionStorage.getItem('refreshed')) {
+                    sessionStorage.setItem('refreshed', 'true');  // Set a flag in the session storage
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
                 }
             }
             window.onbeforeunload = function() {
