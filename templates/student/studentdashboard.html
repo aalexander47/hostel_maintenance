@@ -250,12 +250,8 @@
 </body>
 <script>
     window.onload = function() {
-        var navigation = performance.getEntriesByType("navigation")[0];
-        if (navigation && navigation.type === 'back_forward') {
-            location.reload();
-        }
+        location.reload();
     }
-  
 
     let subMenu = document.getElementById("subMenu");
     function toggle() {
