@@ -80,18 +80,28 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
+# DATABASES = {
+    
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Hostel-management',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Hostel-management',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
+        'NAME': 'da4lfuafh07q5c',
+        'USER': 'slcwumiqewcqdx',
+        'PASSWORD': '8c8c60c93af7877a0dfd7306ffd2ae539ee603953ecdb3000694df16111c4148',
+        'HOST': 'ec2-44-206-204-65.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
-
 
 
 # Password validation
