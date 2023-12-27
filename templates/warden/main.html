@@ -212,8 +212,7 @@
 
         <script>
             window.onload = function() {
-                document.getElementById('main').style.opacity = "1";
-                document.getElementById('loader').style.display = "none";
+         
         
                 // Check if the page has already been refreshed
                 if (!sessionStorage.getItem('refreshed')) {
@@ -223,9 +222,6 @@
                     }, 1000);
                 }
             }
-            window.onbeforeunload = function() {
-                document.getElementById('main').style.opacity = "0";
-                document.getElementById('loader').style.display = "block";
-            }
+        
         </script>
 </body>
