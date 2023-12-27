@@ -250,9 +250,13 @@
 </body>
 <script>
     window.onload = function() {
-        var navigation = performance.getEntriesByType("navigation")[0];
-        if (navigation && navigation.type === 'back_forward') {
-            location.reload();
+
+        // Check if the page has already been refreshed
+        if (!sessionStorage.getItem('refreshed')) {
+            sessionStorage.setItem('refreshed', 'true');  // Set a flag in the session storage
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
         }
     }
     let subMenu = document.getElementById("subMenu");
