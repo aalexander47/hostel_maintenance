@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Maintenance - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        box-sizing: border-box;
+    }
+
+    .main {
+        width: 100%;
+        min-height: 100vh;
+        background: lightsteelblue;
+    }
+
+    nav {
+        background: white;
+        width: 100%;
+        padding: 10px 10%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .college_logo {
+        width: 50px;
+    }
+
+    .user_pic {
+        width: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 90%;
+
+    }
+
+    .sub-menu-wrap {
+        position: absolute;
+        top: 100%;
+        right: 10%;
+        width: 320px;
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height 0.5s;
+    }
+
+    .sub-menu-wrap.open-menu {
+        max-height: 400px;
+    }
+
+    .sub-menu {
+        background: white;
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .profile_img {
+        width: 60px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+
+    .user_info {
+        display: flex;
+        align-items: center;
+    }
+
+    .user_info h3 {
+        font-weight: 500;
+    }
+
+    .sub-menu hr {
+        border: 5;
+        height: 2px;
+        width: 100%;
+        background: #ccc;
+        margin: 0 0 10px;
+    }
+
+    .sub-menu-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #525252;
+        margin: 12px 0;
+    }
+
+    .sub-menu-link p {
+        width: 100%;
+    }
+
+    .sub-menu-link img {
+        width: 40px;
+        background: #e5e5e5;
+        border-radius: 50%;
+        padding: 8px;
+        margin-right: 15px;
+    }
+
+    .sub-menu-link:hover p {
+        font-weight: 600;
+    }
+
+    .main_div {
+        background-color: lightslategray;
+        width: 380px;
+        height: 250px;
+        border-radius: 20px;
+        margin-top: 50px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #form_link_button {
+        background-color: orange;
+        height: 40px;
+        width: 180px;
+        margin-top: 20px;
+        /* Adjust spacing */
+        border-radius: 10px;
+    }
+
+    #complaint_button {
+        background-color: orange;
+        height: 40px;
+        width: 180px;
+        margin-top: 20px;
+        /* Adjust spacing */
+        border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+        /* Target smaller screens */
+        /* No further adjustments needed for logos, as they're already smaller */
+
+
+    }
+
+    .main_footer_div {
+        background-color: lightslategray;
+        width: max-content;
+        height: 200px;
+    }
+
+    .parent_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-family: 'Poppins', sans-serif;
+        font-family: 'Rethink Sans', sans-serif;
+        font-weight: 800;
+        font-size: 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    th,
+    td {
+        border: 1px solid #f3f0f0;
+        text-align: center;
+        padding: 12px;
+    }
+
+    th {
+        background-color: #7b77ea;
+        font-weight: bold;
+    }
+
+    .navButton {
+        height: 40px;
+        width: 120px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+
+    .navButton:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<body style="background-color: lightsteelblue;">
+    <div class="main">
+        <nav>
+            <a href="https://www.mituniversity.ac.in"><img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
+                    alt="college_logo" class="college_logo"></a>
+
+
+
+            <img src="https://t3.ftcdn.net/jpg/05/53/79/60/240_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg" alt=""
+                class="user_pic" onclick="toggle()">
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="user_info">
+                        <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
+                            class="profile_img">
+                        <h3>{{user.username}}</h3>
+                    </div>
+                    <hr>
+                    <a href="{% url 'profile' %}" class="sub-menu-link">
+                        <img src="https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+                            alt="">
+                        <p>Edit Profile</p>
+
+                    </a>
+                    <a href="{% url 'logout' %}" class="sub-menu-link">
+                        <img src="data:image/png;base64,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"
+                            alt="">
+                        <p>Logout</p>
+
+                    </a>
+
+                </div>
+            </div>
+        </nav>
+
+        <main class="parent_container">
+            <form method="get" action="">
+                <input type="text" name="q" placeholder="Search by name">
+                <input type="submit" value="Search">
+            </form>
+            <h1>Problem - Lists </h1>
+            <table style="background-color: azure;">
+                <thead>
+                    <tr>
+
+                        <th><a href="?sort_by=username" style="color: black;">Username</a></th>
+                       
+                        <th><a href="?sort_by=work" style="color: black;">Speciality</a></th>
+                        <th><a href="?sort_by=email" style="color: black;">Email</a></th>
+                        <th><a href="?sort_by=phone" style="color: black;">Phone</a></th>
+                       
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in technician %}
+                    <tr>
+
+                        <td>{{ request.username }}</td>
+                        
+                        
+                        <td>{{ request.work }}</td>
+                        <td>{{ request.email  }}</td>
+                        <td>{{ request.phone }}</td>
+                      
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No Technician lists found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+            <div class="pagination">
+                <span class="step-links">
+                    {% if Technician.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ technician.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ technician.number }} of {{ technician.paginator.num_pages }}.
+                    </span>
+
+                    {% if Technician.has_next %}
+                    <a href="?page={{ technician.next_page_number }}">next</a>
+                    <a href="?page={{ technician.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </main>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px;">
+        <button  onclick="goBack()" class="navButton">Previous</button>
+        <button  onclick="goForward()"class="navButton">Next</button>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+
+    let subMenu = document.getElementById("subMenu");
+    function toggle() {
+        subMenu.classList.toggle("open-menu");
+    }
+
+
+    function goBack() {
+        window.history.back();
+    }
+    
+    function goForward() {
+        window.history.forward();
+    }
+
+
+
+</script>
+
+
+</html>

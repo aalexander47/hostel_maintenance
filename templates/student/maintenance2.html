@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <title>Student Information Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .main {
+            width: 100%;
+            min-height: 100vh;
+            background: lightsteelblue;
+        }
+
+        nav {
+            background: white;
+            width: 100%;
+            padding: 10px 10%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .college_logo {
+            width: 50px;
+        }
+
+        .user_pic {
+            width: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 90%;
+
+        }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 100%;
+            right: 10%;
+            width: 320px;
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+        }
+
+        .sub-menu-wrap.open-menu {
+            max-height: 400px;
+        }
+
+        .sub-menu {
+            background: white;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .profile_img {
+            width: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .user_info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user_info h3 {
+            font-weight: 500;
+        }
+
+        .sub-menu hr {
+            border: 5;
+            height: 2px;
+            width: 100%;
+            background: #ccc;
+            margin: 0 0 10px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+        .sub-menu-link p {
+            width: 100%;
+        }
+
+        .sub-menu-link img {
+            width: 40px;
+            background: #e5e5e5;
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 15px;
+        }
+
+        .sub-menu-link:hover p {
+            font-weight: 600;
+        }
+
+        form {
+            width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            appearance: none;
+            /* Remove default browser styling */
+        }
+
+        select:focus {
+            outline: none;
+            border: 1px solid #4CAF50;
+        }
+
+        /* Optional styling for the dropdown icon */
+        select::-ms-expand {
+            display: none;
+        }
+
+        select::-webkit-scrollbar {
+            display: none;
+        }
+
+        select::after {
+            content: "\u25BC";
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: #ccc;
+            pointer-events: none;
+        }
+
+        #submit_button {
+            height: 35px;
+            width: 90px;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .main_div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .submit_butt_div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #other_txt {
+            height: 80px;
+            width: 340px;
+            border-radius: 10px;
+        }
+
+        .navButton {
+            height: 40px;
+            width: 120px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 4%;
+            margin-right: 4%;
+        }
+
+        .navButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body style="background-color: lightsteelblue;">
+    <div class="main">
+        <nav>
+            <a href="https://www.mituniversity.ac.in"><img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
+                    alt="college_logo" class="college_logo"></a>
+
+
+
+            <img src="https://t3.ftcdn.net/jpg/05/53/79/60/240_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg" alt=""
+                class="user_pic" onclick="toggle()">
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="user_info">
+                        <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
+                            class="profile_img">
+                        <h3>Name</h3>
+                    </div>
+                    <hr>
+                    <a href="#" class="sub-menu-link">
+                        <img src="https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+                            alt="">
+                        <p>Edit Profile</p>
+
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="data:image/png;base64,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"
+                            alt="">
+                        <p>Logout</p>
+
+                    </a>
+
+                </div>
+            </div>
+        </nav>
+
+        <main class="main_div">
+            <form  method="POST">
+                {% csrf_token %}
+                <h2>Maintenance Form</h2>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="mob-no">Mobile Number:</label>
+                <input type="tel" id="mob-no" name="mobile_number" required>
+                <label for="hostel">Hostel:</label>
+                <select id="hostel" name="hostel" required name="hostel">
+                    <option value="">---- Select Your Hostel ----</option>
+                    <option value="Soe_D_B">SOE Wing Hostel (D Block)</option>
+                    <option value="Soe_E_B">SOE Wing Hostel ( E Block)</option>
+                    <option value="Soe_F_B">SOE Wing Hostel (F Block)</option>
+                    <option value="Iod_B">Institute of Design (Boys)</option>
+                    <option value="Soe_D_G">SOE Wing Hostel (D Block)</option>
+                    <option value="Stfq1_G">New Staff Quarters No 1</option>
+                    <option value="Stfq2_G">New Staff Quarters No 2</option>
+                    <option value="Bc_G">Boat Club</option>
+                    <option value="Raj_G">Raj</option>
+                    <option value="Ska_G">Sangeet Kala Academy</option>
+                    <option value="Guru_G">Gurukul C Block</option>
+                    <option value="Iod1_G">Institute of Design No 1</option>
+                    <option value="Iod2_G">Institute of Design No 2</option>
+                    <option value="A1_B">Anuja 1</option>
+                    <option value="A2_B">Anuja 2</option>
+                    <option value="A3_B">Anuja 3</option>
+                    <option value="A4_B">Anuja 4</option>
+                    <option value="Np_B">Nalini Pride</option>
+                    <option value="Vk_B">Vitthal Krupa</option>
+                    <option value="A5_G">Anuja 5</option>
+                    <option value="A6_G">Anuja 6</option>
+                    <option value="Sh_G">Shakuntala</option>
+                    <option value="Sa_G">Shree Aangan</option>
+                    <option value="Vp_G">Vaishnavi Pride</option>
+                    <option value="Vc_G">Vaishnavi Complex</option>
+                </select>
+    
+                <label for="block-room">Block and Room Number:</label>
+                <input type="text" id="block-room" name="block_room" required
+                    placeholder="eg. D203 ('Put Block letter in capital')">
+    
+    
+                <label for="issue">Issue Type:</label>
+                <select id="issue" name="issue_type" required>
+                    <option value="">---- Select Issue Type ----</option>
+                    <option value="Plumbing">Plumbing</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Carpentry">Carpentry</option>
+                </select>
+    
+    
+                <select id="subIssue" name="sub_issue">
+                    <option value="">---- Main Issue ---- </option>
+                </select>
+    
+                <textarea name="other-text " id="other-txt" style="display: none;" maxlength="20"></textarea>
+    
+                <div class="submit_butt_div">
+                    <input type="submit" value="submit" id="submit_button">
+                </div>
+    
+    
+            </form>
+
+        </main>
+
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px;">
+        <button onclick="goBack()" class="navButton">Go Back</button>
+        <button onclick="goForward()"class="navButton">Go Forward</button>
+
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        function goForward() {
+            window.history.forward();
+        }
+        const issueDropdown = document.getElementById("issue");
+        const subIssueDropdown = document.getElementById("subIssue");
+
+        issueDropdown.addEventListener("change", (event) => {
+
+            subIssueDropdown.innerHTML = "";
+
+
+            switch (event.target.value) {
+                case "Plumbing":
+                    subIssueDropdown.add(new Option(`-- Select Plumbing Problem --`));
+                    subIssueDropdown.add(new Option("Toilet Blocking"));
+                    subIssueDropdown.add(new Option("Jet Spray not working"));
+                    subIssueDropdown.add(new Option("Water leakage from pipe"));
+                    subIssueDropdown.add(new Option("Flash valve not working"));
+                    subIssueDropdown.add(new Option("Water Taps not working"));
+                    subIssueDropdown.add(new Option("other"));
+                    break;
+
+                case "Electrical":
+                    subIssueDropdown.add(new Option(`-- Select Electrical Problem --`));
+                    subIssueDropdown.add(new Option("Three Pin Plug Not Working (5 Amps)"));
+                    subIssueDropdown.add(new Option("Three Pin Plug Not Working (15 Amps)"));
+                    subIssueDropdown.add(new Option("Three Pin Socket not working (5 amps)"));
+                    subIssueDropdown.add(new Option("Two Pin socket not working (15 Amps)"));
+                    subIssueDropdown.add(new Option("Switch not working (5 Amps)"));
+                    subIssueDropdown.add(new Option("Switch not working (15 Amps)"));
+                    subIssueDropdown.add(new Option("Fan not working"));
+                    subIssueDropdown.add(new Option("Bulb Holder points not working"));
+                    subIssueDropdown.add(new Option("Tube lights point not working"));
+                    subIssueDropdown.add(new Option("Bulb Required"));
+                    subIssueDropdown.add(new Option("Tube light required"));
+                    subIssueDropdown.add(new Option("Exhaust Fan not working"));
+                    subIssueDropdown.add(new Option("Lift Not working"));
+                    subIssueDropdown.add(new Option("Passage light not glowing"));
+                    subIssueDropdown.add(new Option("Parking light not glowing"));
+                    subIssueDropdown.add(new Option("other"));
+                    break;
+
+                case "Civil":
+                    subIssueDropdown.add(new Option(`-- Select Civil Problem --`));
+                    subIssueDropdown.add(new Option("Cement works required"));
+                    subIssueDropdown.add(new Option("Fabrication Grill Works required"));
+                    subIssueDropdown.add(new Option("Tiles work required"));
+                    subIssueDropdown.add(new Option("Zali Works required"));
+                    subIssueDropdown.add(new Option("Glass windows works required"));
+                    subIssueDropdown.add(new Option("other"));
+                    break;
+
+                case "Carpentry":
+                    subIssueDropdown.add(new Option(`-- Select Carpentry Problem --`));
+                    subIssueDropdown.add(new Option("Minor repairs works"));
+                    subIssueDropdown.add(new Option("Major repair Works"));
+                    subIssueDropdown.add(new Option("Door Works"));
+                    subIssueDropdown.add(new Option("Windows Works"));
+                    subIssueDropdown.add(new Option("other"));
+                    break;
+
+
+            }
+        });
+
+
+        //Other --> textarea functionality (idhar kuch change krna ho toh krde)
+        const dropdown = document.getElementById("subIssue");
+        const textarea = document.getElementById("other_txt");
+
+        dropdown.addEventListener("change", (event) => {
+            if (event.target.value === "other") {
+                textarea.style.display = "block";
+            } else {
+                textarea.style.display = "none";
+            }
+        });
+
+        //For the dropdown menu in navbar
+        let subMenu = document.getElementById("subMenu");
+        function toggle() {
+            subMenu.classList.toggle("open-menu");
+        }
+
+
+        //For Pervious and next button
+
+        const previousButton = document.getElementById("previousButton");
+        const nextButton = document.getElementById("nextButton");
+
+        previousButton.addEventListener("click", () => {
+            alert("Previous Button Clicked"); // Replace this line with the desired functionality
+        });
+
+        nextButton.addEventListener("click", () => {
+            alert("Next Button Clicked"); // Replace this line with the desired functionality
+        });
+
+    </script>
+</body>
+
+</html>

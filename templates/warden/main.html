@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    {%load static%}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <title>Hostel Maintenance</title>
+    <style>
+        
+        body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-image: url("{% static 'images/WPA.jpg' %}");
+                background-size: cover;
+                background-position: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #f9f9f9;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        #main {
+            opacity: 0;
+            transition: opacity 2s;
+            padding-top: 150px;
+        }
+        .box {
+            width: 30%;
+            padding: 20px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1; /* This will make each box take up an equal amount of space */
+            margin: 10px;
+            min-width: 200px;
+        }
+        .box-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .box a {
+            color: inherit;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            text-align: center;
+            
+        }
+        .box a i {
+            font-size: 50px;
+            margin-right: 10px;
+        }
+        .box:hover {
+            transform: scale(1.05); /* This will scale the box up to 105% of its original size */
+            transition: transform 0.3s ease-in-out; /* This will animate the scaling effect */
+        }
+        #loader {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            background-color: #212324;
+            padding-top: 70px;
+            height: 250px;
+            
+         }
+        
+         footer a {
+            display: block;
+            text-decoration: underline;
+            color: #f0f1f2;
+            margin-bottom: 10px;
+         }
+        
+         footer a:hover {
+            color: #007bff;
+         }
+        
+         .column {
+            flex: 0 0 33.3333%;
+            max-width: 33.3333%;
+         }
+        
+         .column:nth-child(3n+1) {
+            margin-left: 16.6667%;
+         }
+        
+         .column a img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        footer h2{
+            padding-bottom: 100px;
+
+        }
+       
+    
+
+        @media (max-width: 800px) {
+            footer {
+                flex-direction: column;
+            }
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            {% load static %}
+            <img src="{% static 'images/MIT.png' %}" alt="Logo">
+            <div>
+                <h1>MIT </h1>
+                <p>Maintenance</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader"></div>
+    <div class="container" id="main">
+        <h1>Welcome to the Hostel Maintenance Website</h1>
+        <div class="box-container">
+            <div class="box">
+                <a href="wardenlogin">
+                    <i class="fas fa-user-tie"></i>
+                    <h2>Warden</h2>
+                    <p>This is for the warden </p>
+                </a>
+            </div>
+            <div class="box">
+                <a href="/technician/technicianlogin">
+                    <i class="fas fa-tools"></i>
+                    <h2>Technician</h2>
+                    <p>Login here.</p>
+                </a>
+            </div>
+            <div class="box">
+                <a href="student/studentlogin">
+                    <i class="fas fa-user-graduate"></i>
+                    <h2>Student</h2>
+                    <p>login here</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        
+        <div class="column">
+            <a href="https://www.facebook.com/mitadtuniversity"><img src="{% static 'images/facebook.png' %}" alt="Facebook">Facebook</a>
+            <a href="https://twitter.com/"><img src="{% static 'images/twitter.jpg' %}" alt="Twitter">Twitter</a>
+        </div>
+        <div class="column">
+         
+            <a href="https://www.instagram.com/mitadtuniversity/"><img src="{% static 'images/instagram.jpeg' %}" alt="Instagram">Instagram</a>
+            <a href="https://www.linkedin.com/school/mit-adtuniversity/""><img src="{% static 'images/linkedin.png' %}" alt="LinkedIn">Linkedin</a>
+        </div>
+        </footer>
+        
+
+        <script>
+            window.onload = function() {
+                document.getElementById('main').style.opacity = "1";
+                document.getElementById('loader').style.display = "none";
+        
+                // Check if the page has already been refreshed
+                if (!sessionStorage.getItem('refreshed')) {
+                    sessionStorage.setItem('refreshed', 'true');  // Set a flag in the session storage
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                }
+            }
+            window.onbeforeunload = function() {
+                document.getElementById('main').style.opacity = "0";
+                document.getElementById('loader').style.display = "block";
+            }
+        </script>
+</body>
