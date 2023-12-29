@@ -38,6 +38,7 @@ class MaintenanceRequest(models.Model):
     assign_date = models.DateTimeField(auto_now_add=True)
     completion_date = models.DateTimeField(blank=True, null=True)
     Student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    technician = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     
     

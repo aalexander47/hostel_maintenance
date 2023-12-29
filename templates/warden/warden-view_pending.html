@@ -212,6 +212,9 @@
     .navButton:hover {
         background-color: #45a049;
     }
+    .status-pending {
+        color: rgb(255, 4, 0);
+    }
 </style>
 
 <body style="background-color: lightsteelblue;">
@@ -266,6 +269,8 @@
                         <th><a href="?sort_by=block_room" style="color: black;">Block and Room</a></th>
                         <th><a href="?sort_by=issue_type" style="color: black;">Issue Type</a></th>
                         <th><a href="?sort_by=sub_issue" style="color: black;">Main Issue</a></th>
+                        <th><a href="?sort_by=assign_date" style="color: black;">Assign Date</a></th>
+                        <th><a href="?sort_by=completion_date" style="color: black;">Completion Date</a></th>
                         <th><a href="?sort_by=status" style="color: black;">Status</a></th>
                         
                     </tr>
@@ -280,9 +285,10 @@
                         <td>{{ request.block_room }}</td>
                         <td>{{ request.issue_type }}</td>
                         <td>{{ request.sub_issue }}</td>
-                        <td>{{ request.status }}</td>
-                        
-                        
+                        <td>{{request.assign_date}}</td>
+                        <td>{{request.completion_date}}</td>
+                        <td class="{% if request.status == 'pending' %}status-pending{% elif request.status == 'In-progress' %}status-in-progress{% elif request.status == 'completed' %}status-completed{% endif %}">{{ request.status }}</td>
+               
                         
                     </tr>
                     {% empty %}

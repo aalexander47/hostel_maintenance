@@ -133,6 +133,21 @@ button{
 .social i{
   margin-right: 4px;
 }
+.messages .success {
+
+    color: green;
+}
+.messages .error {
+    color: red;
+}
+.messages {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 8%;  /* Adjust this value as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
     </style>
 </head>
@@ -143,6 +158,13 @@ button{
     </div>
     <form method="POST">
         {% csrf_token %}
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
         <h3>Student Login </h3>
        
 

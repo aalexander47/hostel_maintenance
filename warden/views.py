@@ -79,7 +79,7 @@ def wardenregister(request):
                 user = User.objects.create_superuser(username=username, email=email, password=password1)
                 user.save()
                 messages.success(request, 'Account created for ' + username + '!')
-                return redirect('wardenlogin')
+                return redirect('wardenregister')
         else:
             messages.error(request, 'Passwords do not match.')
     return render(request, 'warden/warden_register.html')
@@ -252,7 +252,7 @@ def warden_view_technicians(request):
 
 @login_required(login_url='wardenlogin')
 def warden_view_ongoing(request):
-    maintenance_requests_list = MaintenanceRequest.objects.filter(status='ongoing')
+    maintenance_requests_list = MaintenanceRequest.objects.filter(status='In-progress')
 
     # Get the search keyword from the query string
     keyword = request.GET.get('q')
@@ -276,3 +276,17 @@ def warden_view_ongoing(request):
     maintenance_requests = paginator.get_page(page_number)
     return render(request, 'warden/warden-view_ongoing.html', {'maintenance_requests': maintenance_requests} )
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST['currentPassword']
+        new_password = request.POST['newPassword']
+        user = User.objects.get(username=request.user.username)
+        if user.check_password(current_password):
+            user.set_password(new_password)
+            user.save()
+            messages.success(request, 'Password updated successfully')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Current password is incorrect')
+    return render(request, 'profile.html')

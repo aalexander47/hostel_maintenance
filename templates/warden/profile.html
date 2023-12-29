@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
+    <title>{{user.username}}&nbsp;Profile</title>
+    {%load static%}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -68,6 +70,12 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+        .messages .success {
+            color: green;
+        }
+        .messages .error {
+            color: red;
+        }
     </style>
 </head>
 
@@ -75,8 +83,16 @@
     <div class="container">
         <h2>Edit Profile Password</h2>
         <h2>{{user.username}}</h2>
-        <h3>{{user.email}}</h3>
-        <form action="#" method="post">
+        <h2>{{user.email}}</h2>
+        {% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+        <form  method="POST" action="{% url 'change_password' %}">
+            {% csrf_token %}
 
             <label for="currentPassword">Current Password:</label>
             <input type="password" id="currentPassword" name="currentPassword" required>

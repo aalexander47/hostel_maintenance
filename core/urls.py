@@ -18,15 +18,14 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from warden import views
-from django.contrib.auth.views import LoginView,LogoutView
+
 urlpatterns = [
     path('', include('warden.urls')),
     path('admin/', admin.site.urls),
     path('student/',include('student.urls')),
     path('technician/',include('technician.urls')),
-    
     path('profile/',views.profile ,name='profile'),
     path('afterlogin',views.afterlogin,name='afterlogin'),
-  
-  path('logout/',views.logout_view,name='logout'),
+    path('change_password/', views.change_password, name='change_password'),
+    path('logout/',views.logout_view,name='logout'),
 ]

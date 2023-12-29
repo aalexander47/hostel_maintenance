@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User, Group
 from . forms import TechnicianRegistrationForm
 from django.contrib.auth import authenticate, login
@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
-from django.contrib.auth import logout
+
 
 
 
@@ -48,7 +48,7 @@ def technicianregister(request):
                     messages.error(request, 'Technician Registration Failed')   
                     
                     
-                return redirect('technicianlogin')
+                return redirect('technicianregister')
             
     return render(request, 'technician/technicianregister.html')
 

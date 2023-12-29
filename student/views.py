@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import MaintenanceRequest
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib import messages
 
 
 
@@ -40,7 +41,8 @@ def studentregister(request):
             student.save()
             my_student_group = Group.objects.get_or_create(name='STUDENT')
             my_student_group[0].user_set.add(user)
-        return redirect('studentlogin')
+            messages.success(request, 'Student Registered Successfully')
+        return redirect('studentregister')
     return render(request, 'student/studentregister.html')
 
 @login_required(login_url='studentlogin')
@@ -73,7 +75,7 @@ def maintainance(request):
 
             send_mail(
                 'New Maintenance Request',
-                'A new maintenance request of type {} has been submitted. \n Hostel : {} \n Room -block: {} \n\n\n\n\n\n\n \t\t\t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(maintenance_request.issue_type, maintenance_request.hostel, maintenance_request.block_room),
+                'A new maintenance request of type {} has been submitted.\nHostel : {} \nRoom -block: {} \n\n\n\n\n\n\n \t\t\t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(maintenance_request.issue_type, maintenance_request.hostel, maintenance_request.block_room),
                 settings.EMAIL_HOST_USER,
                 emails,
                 fail_silently=False,
@@ -85,20 +87,46 @@ def maintainance(request):
     else:
         form = MaintenanceForm()
     return render(request, 'student/maintenance.html', {'form': form})
+
+
+
+from django.http import JsonResponse
+
 @login_required(login_url='technicianlogin')
 def update_status(request, request_id):
     maintenance_request = get_object_or_404(MaintenanceRequest, id=request_id)
     if maintenance_request.status == 'pending':
         maintenance_request.status = 'In-progress'
+        maintenance_request.technician = request.user
     elif maintenance_request.status == 'In-progress':
-        maintenance_request.status = 'completed'
+        if request.user == maintenance_request.technician:
+            maintenance_request.status = 'completed'
+            if maintenance_request.completion_date is None:
+                maintenance_request.completion_date = timezone.now()
+                messages.success(request, 'Maintenance request completed successfully')
+                # Get student's email
+                email = maintenance_request.email
+                hostel = maintenance_request.hostel
+                room = maintenance_request.block_room
+                assign_date = maintenance_request.assign_date
+                send_mail(
+                    'Maintenance Request Completed',
+                    'Your maintenance request has been completed that was submitted on {} ,\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
+                    settings.EMAIL_HOST_USER,
+                    [email],  # Wrap email in a list
+                    fail_silently=False,
+                )
+        else:
+           messages.error(request, 'Only the technican who set the status to In-progress can set it to completed')
     elif maintenance_request.status == 'completed':
-        maintenance_request.status = 'completed'
-        maintenance_request.completion_date = timezone.now()
+        if request.user == maintenance_request.technician:
+            maintenance_request.status = 'completed'
+            if maintenance_request.completion_date is None:
+                maintenance_request.completion_date = timezone.now()
+        else:
+            messages.error(request, 'Only the technican who set the status to In-progress can set it to completed')
     maintenance_request.save()
     return JsonResponse({'new_status': maintenance_request.status})
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def get_user_profile(request):
@@ -139,3 +167,5 @@ def complaints_view(request):
     complaints = paginator.get_page(page_number)
    
     return render(request, 'student/complaints_view.html', {'complaints': complaints})
+
+
