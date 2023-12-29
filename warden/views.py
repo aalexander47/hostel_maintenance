@@ -134,10 +134,10 @@ def logout_view(request):
     
     elif is_technician(request.user):
         logout(request)
-        return redirect('technicianlogin')
+        return redirect('stafflogin')
     else:
         logout(request)
-        return redirect('wardenlogin')
+        return redirect('stafflogin')
 
 
 @login_required(login_url='wardenlogin')
@@ -359,3 +359,35 @@ def approve_students(request):
     forms = [StudentRegistrationForm(instance=student) for student in students]
 
     return render(request, 'warden/approve-students.html', {'forms': forms, 'students': students})
+
+
+def staff_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        role = request.POST['Role']
+
+        user = authenticate(request, username=username, password=password,groups=role)
+
+        if user is not None:
+            try:
+                group = Group.objects.get(name=role.upper())
+                if group in user.groups.all():
+                    login(request, user)
+                    if role == 'WARDEN':
+                        return redirect('wardendashboard')
+                    elif role == 'TECHNICIAN':
+                        return redirect('techniciandashboard')
+                    else:
+                        return render(request, 'warden/staff_login.html', {'error': 'Invalid role for this user.'})
+                else:
+                    # User is not in the expected group
+                    return render(request, 'warden/staff_login.html', {'error': 'Invalid role for this user.'})
+            except Group.DoesNotExist:
+                # Group does not exist
+                return render(request, 'warden/staff_login.html', {'error': 'Invalid role.'})
+        else:
+            # Invalid login
+            return render(request, 'warden/staff_login.html', {'error': 'Invalid username or password.'})
+
+    return render(request, 'warden/staff_login.html')
