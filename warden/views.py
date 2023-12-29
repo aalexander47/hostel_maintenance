@@ -23,12 +23,14 @@ from student.forms import StudentRegistrationForm
 
 
 
-
+def is_student(user):
+    return user.groups.filter(name='STUDENT').exists()
 
 def is_technician(user):
     return user.groups.filter(name='TECHNICIAN').exists()
-def is_student(user):
-    return user.groups.filter(name='STUDENT').exists()
+
+def is_warden(user):
+    return user.groups.filter(name='WARDEN').exists()
 
 
 
@@ -56,7 +58,9 @@ def afterlogin(request):
     elif is_technician(request.user):
         return redirect('technician/techniciandashboard')
     else:
+        is_warden(request.user)
         return redirect('wardendashboard')
+    
     
 
 def profile(request):
@@ -65,14 +69,6 @@ def profile(request):
 # def logout(request):
 #     return redirect('main')
 
-def is_student(user):
-    return user.groups.filter(name='STUDENT').exists()
-
-def is_technician(user):
-    return user.groups.filter(name='TECHNICIAN').exists()
-
-def is_warden(user):
-    return user.groups.filter(name='WARDEN').exists()
 # @login_required
 # def afterlogin(request):
 #     if is_student(request.user):
@@ -116,7 +112,7 @@ def wardenlogin(request):
             messages.error(request, 'Invalid username or password.')
     return render(request,'warden/warden-login.html')
 
-@login_required(login_url='wardenlogin')
+# @login_required(login_url='wardenlogin')
 @user_passes_test(is_warden)
 def wardendashboard(request):
     trigger_refresh = True
@@ -131,11 +127,12 @@ def logout_view(request):
         else:
             logout(request)
             return redirect('studentlogin')
-    
+
     elif is_technician(request.user):
         logout(request)
         return redirect('stafflogin')
     else:
+        is_warden(request.user)
         logout(request)
         return redirect('stafflogin')
 
