@@ -17,16 +17,18 @@ from django.contrib import messages
 
 def is_student(user):
     return user.groups.filter(name='STUDENT').exists()
-def studentlogin(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('studentdashboard')  # replace 'home' with the name of your home view
+
+
+# def studentlogin(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
+#             return redirect('studentdashboard')  # replace 'home' with the name of your home view
        
-    return render(request, 'student/studentlogin.html')
+#     return render(request, 'student/studentlogin.html')
 
 def studentregister(request):
     if request.method == 'POST':
@@ -81,7 +83,7 @@ def maintainance(request):
                 fail_silently=False,
             )
 
-            return redirect('studentdashboard')
+            return redirect('success')
         else:
             print('Invalid form')
     else:
@@ -109,9 +111,10 @@ def update_status(request, request_id):
                 hostel = maintenance_request.hostel
                 room = maintenance_request.block_room
                 assign_date = maintenance_request.assign_date
+                
                 send_mail(
                     'Maintenance Request Completed',
-                    'Your maintenance request has been completed that was submitted on {} ,\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
+                    'Your maintenance request has been completed that was submitted on {} by {},\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
                     settings.EMAIL_HOST_USER,
                     [email],  # Wrap email in a list
                     fail_silently=False,
@@ -142,8 +145,9 @@ def get_user_profile(request):
 from .models import MaintenanceRequest
 from django.core.paginator import Paginator
 @login_required(login_url='studentlogin')
+@user_passes_test(is_student)
 def complaints_view(request):
-    complaints = MaintenanceRequest.objects.filter(Student=request.user.student)
+    complaints = MaintenanceRequest.objects.filter(Student=request.user.student).order_by('-assign_date')
 
     # Get the search keyword from the query string
     keyword = request.GET.get('q')
@@ -167,5 +171,13 @@ def complaints_view(request):
     complaints = paginator.get_page(page_number)
    
     return render(request, 'student/complaints_view.html', {'complaints': complaints})
+
+@login_required(login_url='studentlogin')
+
+
+@login_required(login_url='studentlogin')
+@user_passes_test(is_student)
+def success(request):
+    return render(request,'student/success.html')
 
 

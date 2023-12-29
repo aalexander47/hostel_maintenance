@@ -9,6 +9,9 @@ from django.contrib.auth import logout
 from student.models import Student,MaintenanceRequest
 from technician.models import Technician
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
+from student.forms import StudentRegistrationForm
 
 
 
@@ -26,6 +29,9 @@ def is_technician(user):
     return user.groups.filter(name='TECHNICIAN').exists()
 def is_student(user):
     return user.groups.filter(name='STUDENT').exists()
+
+
+
 # Create your views here.
 def main(request):
     # trigger_refresh = True
@@ -33,11 +39,22 @@ def main(request):
         return HttpResponseRedirect('afterlogin')  
     return render(request, 'warden/main.html') #{'trigger_refresh':trigger_refresh}
 
+def student_approve(request):
+    return render(request, 'warden/approve.html')
+
+@login_required
 def afterlogin(request):
     if is_student(request.user):
-        return redirect('studentlogin')
+        try:
+            student = Student.objects.get(user_id=request.user.id)
+            if not student.approved:
+                return redirect('student_approve')
+            else:
+                return redirect('student/studentdashboard')
+        except Student.DoesNotExist:
+            return render(request, 'student/studentregistration.html')
     elif is_technician(request.user):
-        return redirect('technicianlogin')
+        return redirect('technician/techniciandashboard')
     else:
         return redirect('wardendashboard')
     
@@ -54,14 +71,15 @@ def is_student(user):
 def is_technician(user):
     return user.groups.filter(name='TECHNICIAN').exists()
 
-
-@login_required
-def afterlogin(request):
-    if is_student(request.user):
-        return redirect('student/studentdashboard')
-    elif is_technician(request.user):
-        return redirect('technician/techniciandashboard')
-    return redirect('wardendashboard')
+def is_warden(user):
+    return user.groups.filter(name='WARDEN').exists()
+# @login_required
+# def afterlogin(request):
+#     if is_student(request.user):
+#         return redirect('student/studentdashboard')
+#     elif is_technician(request.user):
+#         return redirect('technician/techniciandashboard')
+#     return redirect('wardendashboard')
 
 
 def wardenregister(request):
@@ -77,6 +95,8 @@ def wardenregister(request):
                 messages.error(request, 'Email already exists.')
             else:
                 user = User.objects.create_superuser(username=username, email=email, password=password1)
+                my_student_group = Group.objects.get_or_create(name='WARDEN')
+                my_student_group[0].user_set.add(user)
                 user.save()
                 messages.success(request, 'Account created for ' + username + '!')
                 return redirect('wardenregister')
@@ -97,19 +117,33 @@ def wardenlogin(request):
     return render(request,'warden/warden-login.html')
 
 @login_required(login_url='wardenlogin')
+@user_passes_test(is_warden)
 def wardendashboard(request):
     trigger_refresh = True
     return render(request, 'warden/warden-dashboard.html' ,{'trigger_refresh':trigger_refresh})
 
 def logout_view(request):
-    logout(request)
-    return redirect('main') 
+    if is_student(request.user):
+        student = Student.objects.get(user_id=request.user.id)
+        if not student.approved:
+            logout(request)
+            return redirect('studentlogin')
+        else:
+            logout(request)
+            return redirect('studentlogin')
+    
+    elif is_technician(request.user):
+        logout(request)
+        return redirect('technicianlogin')
+    else:
+        logout(request)
+        return redirect('wardenlogin')
 
 
 @login_required(login_url='wardenlogin')
 def warden_view_problems(request):
     
-    maintenance_requests_list = MaintenanceRequest.objects.all()
+    maintenance_requests_list = MaintenanceRequest.objects.all().order_by('-assign_date')
 
     # Get the search keyword from the query string
     keyword = request.GET.get('q')
@@ -136,7 +170,7 @@ def warden_view_problems(request):
 
 @login_required(login_url='wardenlogin')
 def warden_view_pending(request):
-    maintenance_requests_list = MaintenanceRequest.objects.filter(status='pending')
+    maintenance_requests_list = MaintenanceRequest.objects.filter(status='pending').order_by('-assign_date')
 
     # Get the search keyword from the query string
     keyword = request.GET.get('q')
@@ -165,7 +199,7 @@ def warden_view_pending(request):
 
 @login_required(login_url='wardenlogin')
 def warden_view_completed(request):
-    maintenance_requests_list = MaintenanceRequest.objects.filter(status='completed')
+    maintenance_requests_list = MaintenanceRequest.objects.filter(status='completed').order_by('-assign_date')
 
     # Get the search keyword from the query string
     keyword = request.GET.get('q')
@@ -193,6 +227,7 @@ def warden_view_completed(request):
 
 
 @login_required(login_url='wardenlogin')
+@user_passes_test(is_warden)
 def warden_view_students(request):
     students = Student.objects.all()
      
@@ -220,6 +255,7 @@ def warden_view_students(request):
     return render(request, 'warden/warden-view_students.html', {'students': students} )
 
 @login_required(login_url='wardenlogin')
+@user_passes_test(is_warden)
 def warden_view_technicians(request):
     trigger_refresh = True
     technician = Technician.objects.all()
@@ -251,8 +287,9 @@ def warden_view_technicians(request):
 
 
 @login_required(login_url='wardenlogin')
+@user_passes_test(is_warden)
 def warden_view_ongoing(request):
-    maintenance_requests_list = MaintenanceRequest.objects.filter(status='In-progress')
+    maintenance_requests_list = MaintenanceRequest.objects.filter(status='In-progress').order_by('-assign_date')
 
     # Get the search keyword from the query string
     keyword = request.GET.get('q')
@@ -290,3 +327,35 @@ def change_password(request):
         else:
             messages.error(request, 'Current password is incorrect')
     return render(request, 'profile.html')
+
+
+@login_required(login_url='wardenlogin')
+@user_passes_test(is_warden)
+def approve_students(request):
+    students_list = Student.objects.filter(approved=False)  # Get all unapproved students
+    paginator = Paginator(students_list, 10)  # Show 10 students per page
+
+    page_number = request.GET.get('page')
+    students = paginator.get_page(page_number)
+
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        action = request.POST.get('action')
+
+        if student_id and action:
+            student = Student.objects.get(id=student_id)
+
+            if action == 'approve':
+                student.approved = True
+                student.save()
+                messages.success(request, f'Student {student.username} has been approved.')
+            elif action == 'delete':
+                student.delete()
+                messages.success(request, f'Student {student.username} has been deleted.')
+
+        return redirect('approve_students')  # Redirect back to the same page
+
+    # Create a form instance for each student
+    forms = [StudentRegistrationForm(instance=student) for student in students]
+
+    return render(request, 'warden/approve-students.html', {'forms': forms, 'students': students})

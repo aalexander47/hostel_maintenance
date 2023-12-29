@@ -145,7 +145,7 @@ button{
     width: 100%;
     text-align: center;
     position: absolute;
-    top: 12%;  /* Adjust this value as needed */
+    top: 15%;  /* Adjust this value as needed */
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -194,12 +194,6 @@ button{
         <button type="submit">Register</button>
         <p>Already have an account? <a href=" /student/studentlogin">Login here</a></p>
     </form>
-    {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+
 </body>
 </html>

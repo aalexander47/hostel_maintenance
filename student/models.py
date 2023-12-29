@@ -10,6 +10,7 @@ class Student(models.Model):
     phone = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     username = models.CharField(max_length=255)
+    approved = models.BooleanField(default=False)  
 
     
     USERNAME_FIELD = ['username','email']
