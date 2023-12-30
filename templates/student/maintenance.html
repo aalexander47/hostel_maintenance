@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -130,20 +130,28 @@
             width: 340px;
             border-radius: 10px;
         }
+        body {
+            background-image: url("{% static 'images/WPA.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        nav {
+        background: linear-gradient(to bottom, #3c3e808a, #000000);
+ 
+    }
     </style>
 </head>
 
-<body style="background-color: lightsteelblue;">
+<body>
     <header>
         <header>
-
-
-            <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary" >
                 <div class="container-fluid">
                     <a href="https://www.mituniversity.ac.in"><img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
                             alt="college_logo" id="college_logo"></a>
-                    <a class="navbar-brand" href="Dashboard.html"
+                    <a class="navbar-brand" href="#"
                         style="font-family: 'Poppins', sans-serif; font-family: 'Rethink Sans', sans-serif; font-weight: 800;font-size: medium;">HOSTEL
                         MAINTENANCE PORTAL</a>
 

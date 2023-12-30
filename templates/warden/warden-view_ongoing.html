@@ -23,11 +23,11 @@
     .main {
         width: 100%;
         min-height: 100vh;
-        background: lightsteelblue;
+        background-image: url("{% static 'images/WPA.jpg' %}");
     }
 
     nav {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 100%;
         padding: 10px 10%;
         display: flex;
@@ -60,10 +60,11 @@
 
     .sub-menu-wrap.open-menu {
         max-height: 400px;
+        z-index: 3;
     }
 
     .sub-menu {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
     }
@@ -116,7 +117,7 @@
     }
 
     .main_div {
-        background-color: lightslategray;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 380px;
         height: 250px;
         border-radius: 20px;
@@ -128,23 +129,7 @@
         flex-direction: column;
     }
 
-    #form_link_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
 
-    #complaint_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
 
     @media (max-width: 768px) {
         /* Target smaller screens */
@@ -181,6 +166,7 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
+        backdrop-filter: blur(10px);
     }
 
     th,
@@ -191,7 +177,7 @@
     }
 
     th {
-        background-color: #7b77ea;
+        background: linear-gradient(to bottom, #25264273, #000000);
         font-weight: bold;
     }
 
@@ -215,9 +201,17 @@
     .status-in-progress {
         color: yellow;
     }
+    table tbody{
+
+        position: relative; /* Required for z-index to work */
+        z-index: 1;
+    }
+    tbody tr td {
+        color: white;
+    }
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body >
     <div class="main">
         <nav>
             <a href="https://www.mituniversity.ac.in"><img
@@ -233,7 +227,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>{{user.username}}</h3>
+                        <h3 style="color: aliceblue;">{{user.username}}</h3>
                     </div>
                     <hr>
                     <a href="{% url 'profile' %}" class="sub-menu-link">
@@ -254,26 +248,25 @@
         </nav>
 
         <main class="parent_container">
-            <form method="get" action="">
-                <input type="text" name="q" placeholder="Search by name">
-                <input type="submit" value="Search">
+            <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
             </form>
-            <h1>ongoing - Lists </h1>
-            <table style="background-color: azure;">
+            <h1 style="color: aliceblue;">ongoing - Lists </h1>
+            <table >
                 <thead>
                     <tr>
 
-                        <th><a href="?sort_by=name" style="color: black;">Name</a></th>
-                        <th><a href="?sort_by=mobile_number" style="color: black;">Mobile No.</a></th>
-                        <th><a href="?sort_by=hostel " style="color: black;">Hostel</a></th>
-                        <th><a href="?sort_by=block_room" style="color: black;">Block and Room</a></th>
-                        <th><a href="?sort_by=issue_type" style="color: black;">Issue Type</a></th>
-                        <th><a href="?sort_by=sub_issue" style="color: black;">Main Issue</a></th>
-                        <th><a href="?sort_by=assign_date" style="color: black;">Assign Date</a></th>
-                        <th><a href="?sort_by=completion_date" style="color: black;">Completion Date</a></th>
-                        <th><a href="?sort_by=status" style="color: black;">Status</a></th>
-                        
-                        
+                        <th><a href="?sort_by=name" style="color: rgb(251, 249, 249);">Name</a></th>
+                        <th><a href="?sort_by=mobile_number" style="color: rgb(247, 247, 247);">Mobile No.</a></th>
+                        <th><a href="?sort_by=hostel " style="color: rgb(255, 254, 254);">Hostel</a></th>
+                        <th><a href="?sort_by=block_room" style="color: rgb(245, 240, 240);">Block and Room</a></th>
+                        <th><a href="?sort_by=issue_type" style="color: rgb(255, 253, 253);">Issue Type</a></th>
+                        <th><a href="?sort_by=sub_issue" style="color: rgb(250, 242, 242);">Main Issue</a></th>
+                        <th><a href="?sort_by=assign_date" style="color: rgb(255, 255, 255);">Assign Date</a></th>
+                        <th><a href="?sort_by=completion_date" style="color: rgb(245, 238, 238);">Completion Date</a></th>
+                        <th><a href="?sort_by=status" style="color: rgb(249, 247, 247);">Status</a></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -307,7 +300,7 @@
                     <a href="?page={{ maintenance_requests.previous_page_number }}">previous</a>
                     {% endif %}
 
-                    <span class="current">
+                    <span class="current" style="color: aliceblue;">
                         Page {{ maintenance_requests.number }} of {{ maintenance_requests.paginator.num_pages }}.
                     </span>
 

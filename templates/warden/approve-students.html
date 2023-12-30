@@ -23,11 +23,11 @@
     .main {
         width: 100%;
         min-height: 100vh;
-        background: lightsteelblue;
+        background-image: url("{% static 'images/WPA.jpg' %}");
     }
 
     nav {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 100%;
         padding: 10px 10%;
         display: flex;
@@ -128,23 +128,7 @@
         flex-direction: column;
     }
 
-    #form_link_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
 
-    #complaint_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
 
     @media (max-width: 768px) {
         /* Target smaller screens */
@@ -181,6 +165,7 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
+        backdrop-filter: blur(10px);
     }
 
     th,
@@ -191,7 +176,7 @@
     }
 
     th {
-        background-color: #7b77ea;
+        background: linear-gradient(to bottom, #25264273, #000000);
         font-weight: bold;
     }
 
@@ -235,9 +220,17 @@
     .delete-button:hover {
         background-color: darkred;
     }
+    table tbody{
+
+        position: relative; /* Required for z-index to work */
+        z-index: 1;
+    }
+    tbody tr td {
+        color: white;
+    }
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body >
     <div class="main">
         <nav>
             <a href="https://www.mituniversity.ac.in"><img
@@ -256,12 +249,12 @@
                         <h3>{{request.user.username}}</h3>
                     </div>
                     <hr>
-                    <!-- <a href="#" class="sub-menu-link">
+                    <a href="{% url 'profile' %}" class="sub-menu-link">
                         <img src="https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
                             alt="">
                         <p>Edit Profile</p>
 
-                    </a> -->
+                    </a>
                     <a href="{% url 'logout' %}" class="sub-menu-link">
                         <img src="data:image/png;base64,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"
                             alt="">
@@ -273,7 +266,7 @@
             </div>
         </nav>
         {% if messages %}
-    <ul class="messages">
+    <ul class="messages" style="color: #4CAF50;">
         {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
@@ -282,13 +275,13 @@
 
 
         <main class="parent_container">
-            <table style="background-color: aliceblue;">
+            <table >
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>email</th>
-                        <th>Hostel</th>
-                        <th>Action</th>
+                        <th style="color: #fffbfb;">Username</th>
+                        <th style="color: #fffbfb;">email</th>
+                        <th style="color: #fffbfb;">Hostel</th>
+                        <th style="color: #fffbfb;">Action</th>
                   
                     </tr>
                 </thead>
@@ -324,7 +317,7 @@
                     <a href="?page={{ students.previous_page_number }}">previous</a>
                 {% endif %}
         
-                <span class="current">
+                <span class="current" style="color: #fffbfb;">
                     Page {{ students.number }} of {{ students.paginator.num_pages }}.
                 </span>
         

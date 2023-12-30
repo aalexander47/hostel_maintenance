@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,6 +45,7 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
+        backdrop-filter: blur(10px);
     }
 
     th,
@@ -55,7 +56,7 @@
     }
 
     th {
-        background-color: #7b77ea;
+        background: linear-gradient(to bottom, #3c3e808a, #000000);
         font-weight: bold;
     }
     .navButton {
@@ -75,11 +76,24 @@
     .navButton:hover {
         background-color: #45a049;
     }
+    body {
+        background-image: url("{% static 'images/WPA.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    table tbody{
+
+        position: relative; /* Required for z-index to work */
+        z-index: 1;
+    }
+    tbody tr td {
+        color: white;
+    }
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body >
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background: linear-gradient(to bottom, #3c3e808a, #000000)">
             <div class="container-fluid">
                 <a href="https://www.mituniversity.ac.in"><img
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
@@ -98,28 +112,23 @@
     </header>
 
     <main class="parent_container">
-        <form method="get" action="">
-            <input type="text" name="q" placeholder="Search by name">
-            <input type="submit" value="Search">
+        <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+            <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
         </form>
-        <h1>History</h1>
-        <table style="background-color: azure;">
+        <h1 style="color: #dddddd;">History</h1>
+        <table>
             <thead>
                 <tr>
-                    
-          
+
+                    <th><a href="?sort_by=hostel " style="color: rgb(255, 255, 255);">Hostel</a></th>
+                    <th><a href="?sort_by=block_room" style="color: rgb(255, 255, 255);">Block and Room</a></th>
                   
-                   
-                   
-                    
-                    <th><a href="?sort_by=hostel " style="color: black;">Hostel</a></th>
-                    <th><a href="?sort_by=block_room" style="color: black;">Block and Room</a></th>
-                  
-                    <th><a href="?sort_by=issue_type" style="color: black;">Issue Type</a></th>
-                    <th><a href="?sort_by=sub_issue" style="color: black;">Main Issue</a></th>
-                    <th><a href="?sort_by=assign_date" style="color: black;">Assign Date</a></th>
-                    <th><a href="?sort_by=completion_date" style="color: black;">Completion Date</a></th>
-                    <th><a href="?sort_by=status" style="color: black;">Status</a></th>
+                    <th><a href="?sort_by=issue_type" style="color: rgb(255, 252, 252);">Issue Type</a></th>
+                    <th><a href="?sort_by=sub_issue" style="color: rgb(251, 248, 248);">Main Issue</a></th>
+                    <th><a href="?sort_by=assign_date" style="color: rgb(245, 239, 239);">Assign Date</a></th>
+                    <th><a href="?sort_by=completion_date" style="color: rgb(251, 248, 248);">Completion Date</a></th>
+                    <th><a href="?sort_by=status" style="color: rgb(250, 250, 250);">Status</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -147,7 +156,7 @@
                 <a href="?page={{ complaints.previous_page_number }}">previous</a>
                 {% endif %}
 
-                <span class="current">
+                <span class="current" style="color: azure;">
                     Page {{  complaints.number }} of {{  complaints.paginator.num_pages }}.
                 </span>
 

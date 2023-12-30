@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{%load static%}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,11 +18,11 @@
         .main {
             width: 100%;
             min-height: 100vh;
-            background: lightsteelblue;
+            background-image: url("{% static 'images/WPA.jpg' %}");
         }
 
         nav {
-            background: white;
+            background: linear-gradient(to bottom, #25264273, #000000);
             width: 100%;
             padding: 10px 10%;
             display: flex;
@@ -55,10 +55,12 @@
 
         .sub-menu-wrap.open-menu {
             max-height: 400px;
+            z-index: 3;
+            
         }
 
         .sub-menu {
-            background: white;
+            background: linear-gradient(to bottom, #25264273, #000000);
             padding: 20px;
             margin: 10px;
         }
@@ -111,21 +113,21 @@
         }
 
         h1 {
-            color: #333;
+            color: #f3f1f1;
             font-weight: bold;
             font-size: 28px;
             margin-top: 20px;
         }
 
         p {
-            color: #555;
+            color: #f7eded;
             font-size: 18px;
             margin-bottom: 20px;
         }
 
         .text {
             font-family: 'Arial', sans-serif;
-            background-color: lightsteelblue;
+            backdrop-filter: blur(10px);
             text-align: center;
         }
         button {
@@ -163,7 +165,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>{{user.username}}</h3>
+                        <h3 style="color: #f3f1f1;">{{user.username}}</h3>
                     </div>
                     <hr>
                     <a href="{% url 'profile' %}" class="sub-menu-link">

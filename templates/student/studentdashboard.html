@@ -22,11 +22,11 @@
     .main {
         width: 100%;
         min-height: 100vh;
-        background: lightsteelblue;
+        background: rgb(1, 101, 231);
     }
 
     nav {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 100%;
         padding: 10px 10%;
         display: flex;
@@ -62,7 +62,7 @@
     }
 
     .sub-menu {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
     }
@@ -86,7 +86,7 @@
         border: 5;
         height: 2px;
         width: 100%;
-        background: #ccc;
+        background: #f6e5e5;
         margin: 0 0 10px;
     }
 
@@ -131,16 +131,17 @@
     }
 
     .main_div {
-        background-color: lightslategray;
-        width: 380px;
+       
+        width: 500px;
         height: 250px;
         border-radius: 20px;
         margin-top: 50px;
-
+        backdrop-filter: blur(10px);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        border: 2px solid #fbf2f2;
     }
 
     #form_link_button {
@@ -180,9 +181,14 @@
         align-items: center;
         flex-direction: column;
     }
+    body {
+        background-image: url("{% static 'images/WPA.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body>
     <header>
         <nav style="height: 100px;">
             <a href="https://www.mituniversity.ac.in"><img
@@ -198,7 +204,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>{{user.username}}</h3>
+                        <h3 style="color: azure;">{{user.username}}</h3>
                     </div>
                     <hr>
 
@@ -226,7 +232,7 @@
     <main class="parent_container">
         <div class="main_div">
             <div class="Text_mess">
-                <h2>Hostel Maintenance form</h2>
+                <h2 style="color: azure;">Hostel Maintenance form</h2>
             </div>
             <div class="button_div">
                 <a href="/student/maintainance"><button id="form_link_button">Form Link!</button></a>
@@ -236,7 +242,7 @@
 
         <div class="main_div">
             <div class="Text_mess">
-                <h2>Complaints Status</h2>
+                <h2 style="color: azure;">Complaints Status</h2>
             </div>
             <div class="button_div">
                 <a href="/student/complaints_view"><button id="complaint_button">View</button></a>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    {%load static%}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,11 +23,11 @@
     .main {
         width: 100%;
         min-height: 100vh;
-        background: lightsteelblue;
+        background-image: url("{% static 'images/WPA.jpg' %}");
     }
 
     nav {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 100%;
         padding: 10px 10%;
         display: flex;
@@ -60,12 +60,14 @@
 
     .sub-menu-wrap.open-menu {
         max-height: 400px;
+        z-index: 3;
     }
 
     .sub-menu {
         background: white;
         padding: 20px;
         margin: 10px;
+        z-index: 3;
     }
 
     .profile_img {
@@ -128,23 +130,7 @@
         flex-direction: column;
     }
 
-    #form_link_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
 
-    #complaint_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
 
     @media (max-width: 768px) {
         /* Target smaller screens */
@@ -173,7 +159,7 @@
         font-size: 24px;
         margin-top: 20px;
         margin-bottom: 20px;
-        color: #333;
+        color: #fdf9f9;
     }
 
     table {
@@ -181,6 +167,7 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
+        backdrop-filter: blur(10px)
     }
 
     th,
@@ -191,9 +178,13 @@
     }
 
     th {
-        background-color: #7b77ea;
+        color: #fdf9f9;
+        background: linear-gradient(to bottom, #25264273, #000000);
         font-weight: bold;
+        
     }
+
+
 
     .navButton {
         height: 40px;
@@ -212,16 +203,23 @@
     .navButton:hover {
         background-color: #45a049;
     }
+    table tbody{
+
+        position: relative; /* Required for z-index to work */
+        z-index: 1;
+    }
+    tbody tr td {
+        color: white;
+    }
+
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body>
     <div class="main">
         <nav>
             <a href="https://www.mituniversity.ac.in"><img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
                     alt="college_logo" class="college_logo"></a>
-
-
 
             <img src="https://t3.ftcdn.net/jpg/05/53/79/60/240_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg" alt=""
                 class="user_pic" onclick="toggle()">
@@ -251,22 +249,22 @@
         </nav>
 
         <main class="parent_container">
-            <form method="get" action="">
-                <input type="text" name="q" placeholder="Search by name">
-                <input type="submit" value="Search">
+            <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
             </form>
             <h1>Students - Lists </h1>
-            <table style="background-color: azure;">
+            <table >
                 <thead>
                     <tr>
 
-                        <th><a href="?sort_by=username" style="color: black;">Username</a></th>
+                        <th><a href="?sort_by=username" style="color: rgb(252, 248, 248);">Username</a></th>
                        
-                        <th><a href="?sort_by=hostel_name" style="color: black;">Hostel</a></th>
-                        <th><a href="?sort_by=room_no" style="color: black;">Room No</a></th>
-                        <th><a href="?sort_by=phone" style="color: black;">Phone</a></th>
-                        <th><a href="?sort_by=email" style="color: black;">Email</a></th>
-                        <td>action</td>
+                        <th><a href="?sort_by=hostel_name" style="color: rgb(251, 246, 246);">Hostel</a></th>
+                        <th><a href="?sort_by=room_no" style="color: rgb(254, 250, 250);">Room No</a></th>
+                        <th><a href="?sort_by=phone" style="color: rgb(250, 246, 246);">Phone</a></th>
+                        <th><a href="?sort_by=email" style="color: rgb(247, 241, 241);">Email</a></th>
+                       
                         
                     </tr>
                 </thead>
@@ -297,7 +295,7 @@
                     <a href="?page={{ students.previous_page_number }}">previous</a>
                     {% endif %}
 
-                    <span class="current">
+                    <span class="current" style="color: #f9f7f7;">
                         Page {{ students.number }} of {{ students.paginator.num_pages }}.
                     </span>
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{%load static%}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,11 +23,11 @@
     .main {
         width: 100%;
         min-height: 100vh;
-        background: lightsteelblue;
+        background-image: url("{% static 'images/WPA.jpg' %}");
     }
 
     nav {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 100%;
         padding: 10px 10%;
         display: flex;
@@ -60,10 +60,12 @@
 
     .sub-menu-wrap.open-menu {
         max-height: 400px;
+        z-index: 3;
+      
     }
 
     .sub-menu {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
     }
@@ -128,23 +130,7 @@
         flex-direction: column;
     }
 
-    #form_link_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
-
-    #complaint_button {
-        background-color: orange;
-        height: 40px;
-        width: 180px;
-        margin-top: 20px;
-        /* Adjust spacing */
-        border-radius: 10px;
-    }
+  
 
     @media (max-width: 768px) {
         /* Target smaller screens */
@@ -173,7 +159,7 @@
         font-size: 24px;
         margin-top: 20px;
         margin-bottom: 20px;
-        color: #333;
+        color: #fafafa;
     }
 
     table {
@@ -181,6 +167,7 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
+        backdrop-filter: blur(10px);
     }
 
     th,
@@ -191,7 +178,7 @@
     }
 
     th {
-        background-color: #7b77ea;
+        background: linear-gradient(to bottom, #25264273, #000000);
         font-weight: bold;
     }
 
@@ -212,9 +199,17 @@
     .navButton:hover {
         background-color: #45a049;
     }
+    table tbody{
+
+        position: relative; /* Required for z-index to work */
+        z-index: 1;
+    }
+    tbody tr td {
+        color: white;
+    }
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body >
     <div class="main">
         <nav>
             <a href="https://www.mituniversity.ac.in"><img
@@ -230,7 +225,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>{{user.username}}</h3>
+                        <h3 style="color: #ccc;">{{user.username}}</h3>
                     </div>
                     <hr>
                     <a href="{% url 'profile' %}" class="sub-menu-link">
@@ -251,20 +246,20 @@
         </nav>
 
         <main class="parent_container">
-            <form method="get" action="">
-                <input type="text" name="q" placeholder="Search by name">
-                <input type="submit" value="Search">
+            <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
             </form>
             <h1>Technicians- Lists </h1>
-            <table style="background-color: azure;">
+            <table >
                 <thead>
                     <tr>
 
-                        <th><a href="?sort_by=username" style="color: black;">Username</a></th>
+                        <th><a href="?sort_by=username" style="color: rgb(255, 255, 255);">Username</a></th>
                        
-                        <th><a href="?sort_by=work" style="color: black;">Speciality</a></th>
-                        <th><a href="?sort_by=email" style="color: black;">Email</a></th>
-                        <th><a href="?sort_by=phone" style="color: black;">Phone</a></th>
+                        <th><a href="?sort_by=work" style="color: rgb(255, 255, 255);">Speciality</a></th>
+                        <th><a href="?sort_by=email" style="color: rgb(255, 254, 254);">Email</a></th>
+                        <th><a href="?sort_by=phone" style="color: rgb(255, 253, 253);">Phone</a></th>
                        
                         
                     </tr>

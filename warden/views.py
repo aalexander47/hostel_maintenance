@@ -12,7 +12,10 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from student.forms import StudentRegistrationForm
-
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 
 
@@ -111,12 +114,19 @@ def wardenlogin(request):
         else:
             messages.error(request, 'Invalid username or password.')
     return render(request,'warden/warden-login.html')
-
-# @login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def wardendashboard(request):
-    trigger_refresh = True
-    return render(request, 'warden/warden-dashboard.html' ,{'trigger_refresh':trigger_refresh})
+    monthly_requests = MaintenanceRequest.objects.annotate(month=TruncMonth('assign_date')).values('month').annotate(count=Count('id')).values('month', 'count').order_by('month')
+    dict = {
+        'total_problems': MaintenanceRequest.objects.all().count(),
+        'pending_problems': MaintenanceRequest.objects.filter(status='pending').count(),
+        'in_progress_problems': MaintenanceRequest.objects.filter(status='In-progress').count(),
+        'completed_problems': MaintenanceRequest.objects.filter(status='completed').count(),
+        'monthly_requests': json.dumps(list(monthly_requests), cls=DjangoJSONEncoder),
+    
+}
+    return render(request, 'warden/warden-dashboard.html' ,{'dict':dict})
 
 def logout_view(request):
     if is_student(request.user):
@@ -137,7 +147,8 @@ def logout_view(request):
         return redirect('stafflogin')
 
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
+@user_passes_test(is_warden)
 def warden_view_problems(request):
     
     maintenance_requests_list = MaintenanceRequest.objects.all().order_by('-assign_date')
@@ -165,7 +176,8 @@ def warden_view_problems(request):
 
     return render(request, 'warden/warden-view_problems.html', {'maintenance_requests': maintenance_requests} )
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
+@user_passes_test(is_warden)
 def warden_view_pending(request):
     maintenance_requests_list = MaintenanceRequest.objects.filter(status='pending').order_by('-assign_date')
 
@@ -194,7 +206,8 @@ def warden_view_pending(request):
    
 
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
+@user_passes_test(is_warden)
 def warden_view_completed(request):
     maintenance_requests_list = MaintenanceRequest.objects.filter(status='completed').order_by('-assign_date')
 
@@ -223,7 +236,7 @@ def warden_view_completed(request):
  
 
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def warden_view_students(request):
     students = Student.objects.all()
@@ -233,7 +246,7 @@ def warden_view_students(request):
     keyword = request.GET.get('q')
     if keyword:
         # Filter the maintenance requests by the keyword
-        students = students.filter(name__icontains=keyword) 
+        students = students.filter(username__icontains=keyword) 
 
     # Get the sorting field from the query string
     sort_by = request.GET.get('sort_by')
@@ -251,7 +264,7 @@ def warden_view_students(request):
     students = paginator.get_page(page_number)
     return render(request, 'warden/warden-view_students.html', {'students': students} )
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def warden_view_technicians(request):
     trigger_refresh = True
@@ -261,7 +274,7 @@ def warden_view_technicians(request):
     keyword = request.GET.get('q')
     if keyword:
         # Filter the maintenance requests by the keyword
-        technician = technician.filter(name__icontains=keyword) 
+        technician = technician.filter(username__icontains=keyword) 
         
     elif keyword:
         technician = technician.filter(work__icontains=keyword)
@@ -283,7 +296,7 @@ def warden_view_technicians(request):
     return render(request, 'warden/warden-view_technician.html', {'technician': technician,'trigger_refresh':trigger_refresh} )
 
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def warden_view_ongoing(request):
     maintenance_requests_list = MaintenanceRequest.objects.filter(status='In-progress').order_by('-assign_date')
@@ -326,7 +339,7 @@ def change_password(request):
     return render(request, 'profile.html')
 
 
-@login_required(login_url='wardenlogin')
+@login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def approve_students(request):
     students_list = Student.objects.filter(approved=False)  # Get all unapproved students
