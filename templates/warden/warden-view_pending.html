@@ -29,7 +29,7 @@
 
 
     .main {
-        width: 1000px ;
+        width: 100% ;
         min-height: 100vh;
         background-image: url("{% static 'images/WPA.jpg' %}");
         background-size: cover;
@@ -139,11 +139,23 @@
         flex-direction: column;
     }
 
-    @media (max-width: 768px) {
-        /* Target smaller screens */
-        /* No further adjustments needed for logos, as they're already smaller */
+    @media (max-width: 600px) {
 
-
+        .main{
+             width: 1000px ;
+             background-size: cover;
+             background-position: center;
+        }
+    
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .parent_container {
+            width: 90%;
+        }
     }
 
     .main_footer_div {
