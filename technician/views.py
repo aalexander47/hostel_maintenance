@@ -52,7 +52,7 @@ def technicianregister(request):
             
     return render(request, 'technician/technicianregister.html')
 
-@login_required(login_url='technicianlogin')
+@login_required(login_url='stafflogin')
 @user_passes_test(is_techician)
 def techniciandashboard(request):
     # Fetch maintenance requests that match the technician's work type

@@ -239,7 +239,7 @@ def warden_view_completed(request):
 @login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def warden_view_students(request):
-    students = Student.objects.all()
+    students = Student.objects.all().filter(approved=True)
      
 
     # Get the search keyword from the query string

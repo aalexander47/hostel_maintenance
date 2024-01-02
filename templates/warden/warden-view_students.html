@@ -20,10 +20,20 @@
         box-sizing: border-box;
     }
 
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+    }
+
+
     .main {
-        width: 100%;
+        width:100%;
         min-height: 100vh;
         background-image: url("{% static 'images/WPA.jpg' %}");
+        background-size: cover;
+        background-position: center;
     }
 
     nav {
@@ -64,10 +74,10 @@
     }
 
     .sub-menu {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
-        z-index: 3;
+    
     }
 
     .profile_img {
@@ -132,11 +142,23 @@
 
 
 
-    @media (max-width: 768px) {
-        /* Target smaller screens */
-        /* No further adjustments needed for logos, as they're already smaller */
+    @media (max-width: 600px) {
 
-
+        .main{
+             width: 1000px ;
+             background-size: cover;
+             background-position: center;
+        }
+    
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .parent_container {
+            width: 90%;
+        }
     }
 
     .main_footer_div {
@@ -159,7 +181,7 @@
         font-size: 24px;
         margin-top: 20px;
         margin-bottom: 20px;
-        color: #fdf9f9;
+        color: #fcfcfc;
     }
 
     table {
@@ -167,7 +189,7 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
-        backdrop-filter: blur(10px)
+        backdrop-filter: blur(10px);
     }
 
     th,
@@ -178,13 +200,9 @@
     }
 
     th {
-        color: #fdf9f9;
         background: linear-gradient(to bottom, #25264273, #000000);
         font-weight: bold;
-        
     }
-
-
 
     .navButton {
         height: 40px;
@@ -203,6 +221,17 @@
     .navButton:hover {
         background-color: #45a049;
     }
+    .status-pending {
+        color: red;
+    }
+    
+    .status-in-progress {
+        color: yellow;
+    }
+    
+    .status-completed {
+        color: rgb(88, 228, 88);
+    }
     table tbody{
 
         position: relative; /* Required for z-index to work */
@@ -211,6 +240,9 @@
     tbody tr td {
         color: white;
     }
+
+/* CSS for small screens/mobile phones */
+
 
 </style>
 

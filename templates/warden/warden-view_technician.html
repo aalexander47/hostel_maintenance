@@ -20,10 +20,20 @@
         box-sizing: border-box;
     }
 
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+    }
+
+
     .main {
-        width: 100%;
+        width:100%;
         min-height: 100vh;
         background-image: url("{% static 'images/WPA.jpg' %}");
+        background-size: cover;
+        background-position: center;
     }
 
     nav {
@@ -61,13 +71,13 @@
     .sub-menu-wrap.open-menu {
         max-height: 400px;
         z-index: 3;
-      
     }
 
     .sub-menu {
         background: linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
+    
     }
 
     .profile_img {
@@ -130,13 +140,25 @@
         flex-direction: column;
     }
 
-  
-
-    @media (max-width: 768px) {
-        /* Target smaller screens */
-        /* No further adjustments needed for logos, as they're already smaller */
 
 
+    @media (max-width: 600px) {
+
+        .main{
+             width: 1000px ;
+             background-size: cover;
+             background-position: center;
+        }
+    
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .parent_container {
+            width: 90%;
+        }
     }
 
     .main_footer_div {
@@ -159,7 +181,7 @@
         font-size: 24px;
         margin-top: 20px;
         margin-bottom: 20px;
-        color: #fafafa;
+        color: #fcfcfc;
     }
 
     table {
@@ -198,6 +220,17 @@
 
     .navButton:hover {
         background-color: #45a049;
+    }
+    .status-pending {
+        color: red;
+    }
+    
+    .status-in-progress {
+        color: yellow;
+    }
+    
+    .status-completed {
+        color: rgb(88, 228, 88);
     }
     table tbody{
 
@@ -293,7 +326,7 @@
                     <a href="?page={{ technician.previous_page_number }}">previous</a>
                     {% endif %}
 
-                    <span class="current">
+                    <span class="current" style="color: #f3f0f0;">
                         Page {{ technician.number }} of {{ technician.paginator.num_pages }}.
                     </span>
 

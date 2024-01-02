@@ -19,6 +19,7 @@
         font-family: 'Poppins', sans-serif;
         box-sizing: border-box;
     }
+    
 
     .main {
         width: 100%;
@@ -131,11 +132,23 @@
 
 
 
-    @media (max-width: 768px) {
-        /* Target smaller screens */
-        /* No further adjustments needed for logos, as they're already smaller */
+    @media (max-width: 600px) {
 
-
+        .main{
+             width: 1000px ;
+             background-size: cover;
+             background-position: center;
+        }
+    
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .parent_container {
+            width: 90%;
+        }
     }
 
     .main_footer_div {
