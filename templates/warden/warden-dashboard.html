@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <title>Warden Dashboard</title>
     <script src="https://kit.fontawesome.com/b7572f8bbf.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
     <style>
    body {
     font-family: Arial, sans-serif;
@@ -244,13 +244,9 @@
         </div>
         </div>
     </div>
-
-
- 
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
-        
-
         var menuBtn = document.getElementById("menu-btn");
         var sidebar = document.getElementById("sidebar");
         var iconOpen = document.querySelector("#menu-btn .fa-regular.fa-rectangle-xmark");
@@ -287,7 +283,10 @@
 // Line chart
 var ctx = document.getElementById('lineChart').getContext('2d');
 var monthlyRequests = JSON.parse('{{ dict.monthly_requests | escapejs }}');
-var labels = monthlyRequests.map(function(item) { return item.month; });
+var labels = monthlyRequests.map(function(item) { 
+    var date = new Date(item.month);
+    return date.toLocaleDateString('default', { month: 'long', year: 'numeric' }); 
+});
 var data = monthlyRequests.map(function(item) { return item.count; });
 var lineChart = new Chart(ctx, {
     type: 'line',
@@ -298,11 +297,29 @@ var lineChart = new Chart(ctx, {
             data: data,
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(2, 247, 218, 0.99)',
-            borderWidth: 1
+            borderWidth: 1,
+            pointrate: 'rgba(0, 0, 0, 0.1)',
+            pointBackgroundColor: 'rgba(2, 247, 218, 0.99)',
+            PointRadius: 7,
         }]
     },
     options: {
         responsive: true,
+        scales: {
+            x: {
+                ticks: {
+                    color: 'rgba(2, 247, 218, 0.99)',
+                },
+              
+            },
+            y: {
+                beginAtZero: true,
+              
+                ticks: {
+                    color: 'rgba(2, 247, 218, 0.99)',
+                }
+            }
+        },
         plugins: {
             datalabels: {
                 display: true,

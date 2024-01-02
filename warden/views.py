@@ -118,14 +118,16 @@ def wardenlogin(request):
 @user_passes_test(is_warden)
 def wardendashboard(request):
     monthly_requests = MaintenanceRequest.objects.annotate(month=TruncMonth('assign_date')).values('month').annotate(count=Count('id')).values('month', 'count').order_by('month')
+    monthly_requests = list(monthly_requests)
+    for item in monthly_requests:
+        item['month'] = item['month'].isoformat()  # Convert date to ISO 8601 string
     dict = {
         'total_problems': MaintenanceRequest.objects.all().count(),
         'pending_problems': MaintenanceRequest.objects.filter(status='pending').count(),
         'in_progress_problems': MaintenanceRequest.objects.filter(status='In-progress').count(),
         'completed_problems': MaintenanceRequest.objects.filter(status='completed').count(),
         'monthly_requests': json.dumps(list(monthly_requests), cls=DjangoJSONEncoder),
-    
-}
+    }
     return render(request, 'warden/warden-dashboard.html' ,{'dict':dict})
 
 def logout_view(request):
