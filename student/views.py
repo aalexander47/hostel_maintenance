@@ -114,7 +114,7 @@ def update_status(request, request_id):
                 
                 send_mail(
                     'Maintenance Request Completed',
-                    'Your maintenance request has been completed that was submitted on {} by {},\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
+                    'Your maintenance request has been completed that was submitted on {} ,\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
                     settings.EMAIL_HOST_USER,
                     [email],  # Wrap email in a list
                     fail_silently=False,
