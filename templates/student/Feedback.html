@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Maintenance - Dashboard</title>
+    <title>Feedback form </title>
+    {%load static%}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
@@ -158,6 +161,117 @@
     .navButton:hover {
         background-color: #45a049;
     }
+
+
+
+
+
+    #reportButton {
+        background-color: #3d3df2;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50; /* Green */
+        border-radius:4px;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+
+    .star-rating {
+        direction: rtl;
+        justify-content: center;
+        
+        display :flex;
+        flex-direction: row;
+    }
+    
+    .star-rating input[type=radio] {
+        display: none;
+    }
+    
+.star-rating label {
+    display: inline-block;
+    position: relative;
+    width: 30px; /* Increase this value to make the stars larger */
+    color: #fda902;
+    font-size: 25px; /* Add this line to increase the font size */
+}
+    
+    .star-rating label:before {
+        content: "★";
+        position: absolute;
+        opacity: 0.3;
+    }
+    
+    .star-rating input[type=radio]:checked ~ label:before {
+        opacity: 1;
+    }
+
+      
+      #selected-text {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+      }
+      .popup {
+        position: fixed;
+        width: 300px;
+        height: 200px;
+        background: #fff;
+        border: 1px solid #000;
+        padding: 10px;
+        box-sizing: border-box;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    #report {
+        width: 100%;
+        height: calc(100% - 20px);
+        box-sizing: border-box;
+    }
+    
+    #charCount {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+    #okButton {
+    background-color: #4CAF50; /* Green */
+    border-radius:4px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10   px;
+    margin: 2px 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#okButton:hover {
+    background-color: #45a049;
+}
+
 </style>
 
 <body style="background-color: lightsteelblue;">
@@ -176,16 +290,16 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>Name</h3>
+                        <h3>{{user.username}}</h3>
                     </div>
                     <hr>
-                    <a href="#" class="sub-menu-link">
+                    <a href="{% url 'profile' %}" class="sub-menu-link">
                         <img src="https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
                             alt="">
                         <p>Edit Profile</p>
 
                     </a>
-                    <a href="#" class="sub-menu-link">
+                    <a href="{% url 'logout' %}" class="sub-menu-link">
                         <img src="data:image/png;base64,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"
                             alt="">
                         <p>Logout</p>
@@ -195,59 +309,137 @@
                 </div>
             </div>
         </nav>
+        {% csrf_token %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% elif message.tags == 'success' %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
 
 
         <main class="parent_container">
             <table>
                 <thead>
                     <tr>
-                        <th>Serial No.</th>
+                        <th>assign_date</th>
+                        <th>completion_date</th>
                         <th>Technician Name</th>
-                        <th>Mobile No.</th>
+                        <th>Hostel_name</th>
                         <th>Issue Type</th>
                         <th>Main Issue</th>
-                        <th>Assigned Date</th>
-                        <th>Completed Date</th>
-                        <th>Status</th>
+                        <th>Report Issue</th>
+                        <th>Rating</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for maintenance_request in feedback_view %}
                     <tr>
-                        <td>1</td>
-                        <td>ABC</td>
-                        <td>1234567890</td>
-                        <td>Plumbing</td>
-                        <td>Water leakage</td>
-                        <td>2023-12-12</td>
-                        <td>2023-12-14</td>
-                        <td>Completed</td>
+                        <td>{{ maintenance_request.assign_date }}</td>
+                        <td>{{ maintenance_request.completion_date }}</td>
+                        <td>{{ maintenance_request.technician.username }}</td>
+                        <td>{{ maintenance_request.hostel }}</td>
+                        <td>{{ maintenance_request.issue_type }}</td>
+                        <td>{{ maintenance_request.sub_issue }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="maintenance_request_id" value="{{ maintenance_request.id }}">
+                                <input type="hidden" name="student_id" value="{{ maintenance_request.Student.id }}">
+                                <button type="button" id="reportButton">Report</button>
+                                <div id="reportBox" class="popup" style="display: none;">
+                                    <textarea id="report" name="report" maxlength="200" oninput="updateCount()"></textarea>
+                                    <div id="charCount">0/200</div>
+                                    <button type="button" id="okButton">OK</button>
+                                </div>
+                        
+                        </td>
+                        <td>
+
+                                <input type="hidden" name="maintenance_request_id" value="{{ maintenance_request.id }}">
+                                <input type="hidden" name="student_id" value="{{ maintenance_request.Student.id }}">
+                                <div class="star-rating">
+                                    <input id="star5" type="radio" name="rating" value="5"><label for="star5" title="5 stars"></label>
+                                    <input id="star4" type="radio" name="rating" value="4"><label for="star4" title="4 stars"></label>
+                                    <input id="star3" type="radio" name="rating" value="3"><label for="star3" title="3 stars"></label>
+                                    <input id="star2" type="radio" name="rating" value="2"><label for="star2" title="2 stars"></label>
+                                    <input id="star1" type="radio" name="rating" value="1"><label for="star1" title="1 star"></label>
+                                </div>
+                    
+                        </td>
+                        <td>
+
+                                <input type="hidden" name="maintenance_request_id" value="{{ maintenance_request.id }}">
+                                <input type="hidden" name="student_id" value="{{ maintenance_request.Student.id }}">
+                                <input type="submit" value="Submit">
+                            </form>
+                        </td>
                     </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="11">No completed maintenance requests found</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
+            
+            
         </main>
         <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px;">
-            <button type="button" id="previousButton" class="navButton">Previous</button>
-            <button type="button" id="nextButton" class="navButton">Next</button>
+            <button  onclick="goBack()" class="navButton">Previous</button>
+            <button  onclick="goForward()"class="navButton">Next</button>
         </div>
     </div>
+
+
+
     <script>
         let subMenu = document.getElementById("subMenu");
         function toggle() {
             subMenu.classList.toggle("open-menu");
         }
-
-        const previousButton = document.getElementById("previousButton");
-        const nextButton = document.getElementById("nextButton");
-
-        previousButton.addEventListener("click", () => {
-            alert("Previous Button Clicked"); // Replace this line with the desired functionality
+        document.getElementById('reportButton').addEventListener('click', function() {
+            document.getElementById('reportBox').style.display = 'block';
         });
-
-        nextButton.addEventListener("click", () => {
-            alert("Next Button Clicked"); // Replace this line with the desired functionality
+        
+        document.getElementById('okButton').addEventListener('click', function() {
+            document.getElementById('reportBox').style.display = 'none';
         });
+        
+        function updateCount() {
+            var report = document.getElementById('report');
+            var count = document.getElementById('charCount');
+            count.textContent = report.value.length + '/200';
+        }
+
+
+        function goBack() {
+            window.history.back();
+        }
+    
+        function goForward() {
+            window.history.forward();
+        }
+
+
 
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-9aD6jZ1aIy5VpWz1dwyOxFKbVfGByr0NzG5n4qUo5N6cTvQBOf8w2O2dtfLEa8gC"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

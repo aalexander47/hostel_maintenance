@@ -9,6 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
@@ -70,10 +71,11 @@
 
     .sub-menu-wrap.open-menu {
         max-height: 400px;
+        z-index: 3;
     }
 
     .sub-menu {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
     }
@@ -267,7 +269,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>{{request.user.username}}</h3>
+                        <h3 style="color: #f3f0f0;">{{request.user.username}}</h3>
                     </div>
                     <hr>
                     <a href="{% url 'profile' %}" class="sub-menu-link">
@@ -286,13 +288,24 @@
                 </div>
             </div>
         </nav>
+        {% csrf_token %}
         {% if messages %}
-    <ul class="messages" style="color: #4CAF50;">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% elif message.tags == 'success' %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
 
 
         <main class="parent_container">
@@ -300,7 +313,8 @@
                 <thead>
                     <tr>
                         <th style="color: #fffbfb;">Username</th>
-                        <th style="color: #fffbfb;">email</th>
+                        <th style="color: #fffbfb;">Enrollment Number</th>
+                        <th style="color: #fffbfb;">E-mail</th>
                         <th style="color: #fffbfb;">Hostel</th>
                         <th style="color: #fffbfb;">Action</th>
                   
@@ -310,6 +324,7 @@
                     {% for form in forms %}
                     <tr>
                         <td>{{ form.instance.username }}</td>
+                        <td>{{ form.instance.enrollment_no }}</td>
                         <td>{{ form.instance.email }}</td>
                         <td>{{ form.instance.hostel_name }}</td>
                         

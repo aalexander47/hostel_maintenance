@@ -12,6 +12,9 @@ from .models import MaintenanceRequest
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+from warden.models import Warden
+from student.models import Student
+from technician.models import Feedback
 
 
 
@@ -19,16 +22,8 @@ def is_student(user):
     return user.groups.filter(name='STUDENT').exists()
 
 
-# def studentlogin(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('studentdashboard')  # replace 'home' with the name of your home view
-       
-#     return render(request, 'student/studentlogin.html')
+def is_technician(user):
+    return user.groups.filter(name='TECHNICIAN').exists()
 
 def studentregister(request):
     if request.method == 'POST':
@@ -56,45 +51,12 @@ def studentdashboard(request):
 
 
 
-@login_required(login_url='studentlogin')
-@user_passes_test(is_student)
-def maintainance(request):
-    form = MaintenanceForm()
-    if request.method == 'POST':
-        form = MaintenanceForm(request.POST)
-        if form.is_valid():
-            maintenance_request = form.save(commit=False)
-            maintenance_request.assign_date = timezone.now()
-            student = request.user.student
-            maintenance_request.Student = student
-            maintenance_request.save()
-
-            technicians = Technician.objects.filter(work=maintenance_request.issue_type)
-            emails = [technician.email for technician in technicians]
-
-            # # Add the sender's email to the list of recipient emails
-            emails.append(request.user.email)
-
-            send_mail(
-                'New Maintenance Request',
-                'A new maintenance request of type {} has been submitted.\nHostel : {} \nRoom -block: {} \n\n\n\n\n\n\n \t\t\t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(maintenance_request.issue_type, maintenance_request.hostel, maintenance_request.block_room),
-                settings.EMAIL_HOST_USER,
-                emails,
-                fail_silently=False,
-            )
-
-            return redirect('success')
-        else:
-            print('Invalid form')
-    else:
-        form = MaintenanceForm()
-    return render(request, 'student/maintenance.html', {'form': form})
-
 
 
 from django.http import JsonResponse
 
-@login_required(login_url='technicianlogin')
+@login_required(login_url='stafflogin')
+@user_passes_test(is_technician)
 def update_status(request, request_id):
     maintenance_request = get_object_or_404(MaintenanceRequest, id=request_id)
     if maintenance_request.status == 'pending':
@@ -181,3 +143,96 @@ def success(request):
     return render(request,'student/success.html')
 
 
+
+
+@login_required(login_url='studentlogin')
+@user_passes_test(is_student)
+def maintainance(request):
+    form = MaintenanceForm()
+    if request.method == 'POST':
+        form = MaintenanceForm(request.POST)
+        if form.is_valid():
+            student = request.user.student
+            today_min = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            today_max = timezone.now().replace(hour=23, minute=59, second=59, microsecond=999999)
+            maintenance_requests_today = MaintenanceRequest.objects.filter(Student=student, assign_date__range=(today_min, today_max)).count()
+
+            if maintenance_requests_today >=3:
+                # The student has already made 3 maintenance requests today
+                messages.error(request, 'You have already made 3 maintenance requests today. Please try again tomorrow.')
+                return render(request, 'student/maintenance.html')
+            maintenance_request = form.save(commit=False)
+            maintenance_request.assign_date = timezone.now()
+           
+            maintenance_request.Student = student
+            maintenance_request.save()
+            technicians = Technician.objects.filter(work=maintenance_request.issue_type)
+            emails = [technician.email for technician in technicians]
+
+            # Get the warden with the same hostel name and add their email to the list of recipient emails
+            try:
+                warden = Warden.objects.get(Hostel_name=maintenance_request.hostel)
+                emails.append(warden.email)
+            except Warden.DoesNotExist:
+                pass
+
+            # Add the sender's email to the list of recipient emails
+            emails.append(request.user.email)
+
+            send_mail(
+                'New Maintenance Request',
+                'A new maintenance request of type {} has been submitted by {} \nPhone_no:{}\nHostel:{}\nRoom -block:{} \n\n\n\n\n\n\n \t\t\t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(maintenance_request.issue_type,maintenance_request.name,maintenance_request.mobile_number, maintenance_request.hostel, maintenance_request.block_room),
+                settings.EMAIL_HOST_USER,
+                emails,
+                fail_silently=False,
+            )
+
+            return redirect('success')
+        else:
+            print('Invalid form')
+    else:
+        form = MaintenanceForm()
+    return render(request, 'student/maintenance.html', {'form': form})
+
+
+
+def feedback_view(request):
+    if request.method == 'POST':
+        report = request.POST.get('report')
+        rating = request.POST.get('rating')
+        maintenance_request_id = request.POST.get('maintenance_request_id')
+        student_id = request.POST.get('student_id')
+        maintenance_request = MaintenanceRequest.objects.get(id=maintenance_request_id)
+        student = Student.objects.get(id=student_id)
+        
+        if Feedback.objects.filter(maintenance_request=maintenance_request, student=student).exists():
+            messages.error(request, 'You have already submitted feedback for this maintenance request.')
+            return redirect('feedback_view')
+        
+        Feedback.objects.create(maintenance_request=maintenance_request, student=student, report=report, rating=rating)
+
+        # Get the technician's email based on the maintenance_request
+        email = [maintenance_request.technician.email] 
+        try:    
+            warden = Warden.objects.get(Hostel_name=maintenance_request.hostel)
+            email.append(warden.email)    
+        except Warden.DoesNotExist:
+            pass
+
+        # Send the email
+        send_mail(
+            'New Feedback Submitted',
+            'A new feedback has been submitted for a maintenance {} request by {} for {}'.format(maintenance_request.issue_type,student.user.username,maintenance_request.technician.username),
+            settings.EMAIL_HOST_USER,
+            email,  # Send to both technician and warden
+            fail_silently=False,
+        )
+        
+        messages.success(request, 'Feedback submitted successfully')
+
+    # Exclude MaintenanceRequest objects that already have a Feedback object associated with them
+    feedback_view = MaintenanceRequest.objects.filter(Student=request.user.student, status='completed').exclude(feedback__isnull=False).order_by('-completion_date')
+
+
+
+    return render(request, 'student/Feedback.html', {'feedback_view': feedback_view})

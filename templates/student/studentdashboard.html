@@ -162,6 +162,14 @@
         /* Adjust spacing */
         border-radius: 10px;
     }
+    #feedback_button {
+        background-color: orange;
+        height: 40px;
+        width: 180px;
+        margin-top: 20px;
+        /* Adjust spacing */
+        border-radius: 10px;
+    }
 
     @media (max-width: 768px) {
         /* Target smaller screens */
@@ -243,10 +251,18 @@
 
         <div class="main_div">
             <div class="Text_mess">
-                <h2 style="color: azure;">Complaints Status</h2>
+                <h2 style="color: azure;">History</h2>
             </div>
             <div class="button_div">
                 <a href="/student/complaints_view"><button id="complaint_button">View</button></a>
+            </div>
+        </div>
+        <div class="main_div">
+            <div class="Text_mess">
+                <h2 style="color: azure;">Feedback</h2>
+            </div>
+            <div class="button_div">
+                <a href="/student/feedback_view"><button id="feedback_button">View</button></a>
             </div>
         </div>
     </main>

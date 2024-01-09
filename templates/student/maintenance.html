@@ -140,6 +140,8 @@
         background: linear-gradient(to bottom, #3c3e808a, #000000);
  
     }
+    .message.error{
+        color: red;}
     </style>
 </head>
 
@@ -166,8 +168,22 @@
         </header>
     </header>
     <main class="main_div">
+      
         <form  method="POST">
             {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
             <h2>Maintenance Form</h2>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -179,7 +195,7 @@
             <select id="hostel" name="hostel" required name="hostel">
                 <option value="">---- Select Your Hostel ----</option>
                 <option value="SOE Wing Hostel (D Block)">SOE Wing Hostel (D Block)</option>
-                <option value="SOE Wing Hostel ( E Block)">SOE Wing Hostel ( E Block)</option>
+                <option value="SOE Wing Hostel (E Block)">SOE Wing Hostel ( E Block)</option>
                 <option value="SOE Wing Hostel (F Block)</">SOE Wing Hostel (F Block)</option>
                 <option value="Institute of Design (Boys)">Institute of Design (Boys)</option>
                 <option value="SOE Wing Hostel (D Block)">SOE Wing Hostel (D Block)</option>
@@ -217,6 +233,7 @@
                 <option value="Electrical">Electrical</option>
                 <option value="Civil">Civil</option>
                 <option value="Carpentry">Carpentry</option>
+                <option value ="House-keeping">House-keeping</option>
             </select>
 
 
@@ -254,6 +271,7 @@
                     subIssueDropdown.add(new Option("Water leakage from pipe"));
                     subIssueDropdown.add(new Option("Flash valve not working"));
                     subIssueDropdown.add(new Option("Water Taps not working"));
+                    subIssueDropdown.add(new Option("No water"));
                     subIssueDropdown.add(new Option("other"));
                     break;
 
@@ -284,6 +302,7 @@
                     subIssueDropdown.add(new Option("Tiles work required"));
                     subIssueDropdown.add(new Option("Zali Works required"));
                     subIssueDropdown.add(new Option("Glass windows works required"));
+                    subIssueDropdown.add(new Option("weilding"));
                     subIssueDropdown.add(new Option("other"));
                     break;
 
@@ -295,6 +314,17 @@
                     subIssueDropdown.add(new Option("Windows Works"));
                     subIssueDropdown.add(new Option("other"));
                     break;
+                
+                case "House-keeping":
+                    subIssueDropdown.add(new Option(`-- Select House-keeping Problem --`));
+                    subIssueDropdown.add(new Option("Room clean service required"));
+                    subIssueDropdown.add(new Option("Pest Control"));
+                    subIssueDropdown.add(new Option("Termite Control"));
+                    subIssueDropdown.add(new Option("Wifi"));
+                    subIssueDropdown.add(new Option("painting"));
+                    subIssueDropdown.add(new Option("water cooler"));
+                    break;
+
 
 
             }

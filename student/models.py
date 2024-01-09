@@ -10,14 +10,15 @@ class Student(models.Model):
     phone = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     username = models.CharField(max_length=255)
-    approved = models.BooleanField(default=False)  
+    approved = models.BooleanField(default=False)
+    enrollment_no = models.CharField(max_length=255,null =True)  
 
     
     USERNAME_FIELD = ['username','email']
-    REQUIRED_FIELDS = ['email', 'hostel_name', 'room_no', 'phone']
+    REQUIRED_FIELDS = ['email', 'hostel_name', 'room_no', 'phone','enrollment_no']
 
     def __str__(self):
-        return self.user
+        return self.user.username
     
     
     
@@ -40,6 +41,11 @@ class MaintenanceRequest(models.Model):
     completion_date = models.DateTimeField(blank=True, null=True)
     Student = models.ForeignKey(Student, on_delete=models.CASCADE)
     technician = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    def __str__(self):
+        return self.name
+    
+    
 
     
     

@@ -291,11 +291,11 @@
                     <tr>
 
                         <th><a href="?sort_by=username" style="color: rgb(252, 248, 248);">Username</a></th>
-                       
+                       <th><a href="?sort_by=enrollment_no" style="color: rgb(250, 245, 245);">Enrollment No</a></th>
                         <th><a href="?sort_by=hostel_name" style="color: rgb(251, 246, 246);">Hostel</a></th>
                         <th><a href="?sort_by=room_no" style="color: rgb(254, 250, 250);">Room No</a></th>
                         <th><a href="?sort_by=phone" style="color: rgb(250, 246, 246);">Phone</a></th>
-                        <th><a href="?sort_by=email" style="color: rgb(247, 241, 241);">Email</a></th>
+                        <th><a href="?sort_by=email" style="color: rgb(247, 241, 241);">E-mail</a></th>
                        
                         
                     </tr>
@@ -304,7 +304,8 @@
                     {% for request in students %}
                     <tr>
 
-                        <td>{{ request.username }}</td>                       
+                        <td>{{ request.username }}</td>   
+                        <td>{{ request.enrollment_no }}</td>                    
                         <td>{{ request.hostel_name }}</td>
                         <td>{{ request.room_no  }}</td>
                         <td>{{ request.phone }}</td>
