@@ -11,12 +11,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
     * {
         margin: 0;
         padding: 0;
         font-family: 'Poppins', sans-serif;
         box-sizing: border-box;
+    }
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .navbar-content h1 {
+        margin: 0;
     }
 
     .main {
@@ -37,6 +47,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -191,7 +202,7 @@
         flex-direction: column;
     }
     body {
-        background-image: url("{% static 'images/WPA.jpg' %}");
+        background-image: url("{% static 'images/dorm.jpg' %}");
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -199,7 +210,7 @@
 
 <body>
     <header>
-        <nav style="height: 100px;">
+        <nav  class="navbar" style="height: 100px;">
             <a href="https://www.mituniversity.ac.in"><img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
                     alt="college_logo" class="college_logo"></a>
@@ -234,6 +245,9 @@
                     </form>
 
                 </div>
+            </div>
+            <div class="navbar-content">
+                <h1 style="color: aliceblue; font-family: 'Poppins', sans-serif;font-weight: 800;">Student Dashboard</h1>
             </div>
         </nav>
     </header>

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Nunito:wght@200;300;400;600;700&display=swap');
 
     * {
         margin: 0;
@@ -20,11 +20,14 @@
         font-family: 'Poppins', sans-serif;
         box-sizing: border-box;
     }
+    .html{
+        scroll-behavior: smooth;
+    }
     
 
     .main {
         width: 100%;
-        min-height: 100vh;
+        min-height: 110vh;
         background-image: url("{% static 'images/WPA.jpg' %}");
     }
 
@@ -40,6 +43,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -273,7 +277,7 @@
                 </div>
             </div>
         </nav>
-
+<br>
         <main class="parent_container">
             <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
                 <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">

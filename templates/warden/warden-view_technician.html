@@ -11,7 +11,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
     * {
         margin: 0;
@@ -30,8 +30,8 @@
 
     .main {
         width:100%;
-        min-height: 100vh;
-        background-image: url("{% static 'images/WPA.jpg' %}");
+        min-height: 110vh;
+        background-image: url("{% static 'images/bag.jpg' %}");
         background-size: cover;
         background-position: center;
     }
@@ -48,6 +48,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -181,7 +182,7 @@
         font-size: 24px;
         margin-top: 20px;
         margin-bottom: 20px;
-        color: #fcfcfc;
+        color: #010101;
     }
 
     table {
@@ -190,6 +191,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
         backdrop-filter: blur(10px);
+        background: linear-gradient(to bottom, #25264273, #000000);
     }
 
     th,
@@ -239,6 +241,9 @@
     }
     tbody tr td {
         color: white;
+    }
+    th a {
+        text-decoration: none;
     }
 </style>
 
@@ -326,7 +331,7 @@
                     <a href="?page={{ technician.previous_page_number }}">previous</a>
                     {% endif %}
 
-                    <span class="current" style="color: #f3f0f0;">
+                    <span class="current" style="color: #060606;">
                         Page {{ technician.number }} of {{ technician.paginator.num_pages }}.
                     </span>
 

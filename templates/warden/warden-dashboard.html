@@ -14,18 +14,26 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url("{% static 'images/WPA.jpg' %}"); /* Gradient from blue to purple */
+    background-image: url("{% static 'images/warden.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+     /* Gradient from blue to purple */
 }
         .sidebar {
             position: fixed;
             width: 200px;
             height: 100%;
-            background: linear-gradient(to top, #25264273, #000000);
+            background: linear-gradient(to top, #46475073, #2d292995);
+            backdrop-filter: blur(10px);
             color: #fff;
             left: -200px;
             margin-top: 10px 2;
             transition: all .5s;
             z-index: 3;
+        }
+        .sidebar a {
+            text-decoration: none;
         }
         .sidebar.active {
             left: 0;
@@ -57,7 +65,7 @@
             cursor: pointer;
             background: transparent;
             border: none; 
-            color: #fff;
+            color: #0f0f0f;
         }
         #menu-btn .fa-times {
             display: none;
@@ -74,7 +82,7 @@
             margin-top: -60px;
             width: 100%;
             color: #fff;
-            background: linear-gradient(to bottom, #25264273, #000000);
+            background: linear-gradient(to bottom, #191a1da3, #2d292995);
             padding:3px ;
             z-index: 3;
         }
@@ -113,18 +121,15 @@
             flex: 1 0 200px;
             margin: 20px;
             padding: 20px;
-            
-            
             border-radius: 5px;
-          
-            
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
         }
         .chart-container {
             position: relative;
             height: auto;
             width: 100%;
-            background: linear-gradient(to top, #25264273, #000000);
+           backdrop-filter: blur(10px);
+           border: #fff 2px solid;
         }
         .chart-row {
             display: flex;
@@ -136,6 +141,7 @@
 
         .box.full-width {
             flex: 0 0 89%;
+            color:#02fdfd 
         }
  
     
@@ -161,6 +167,7 @@
             }
             .box.full-width {
                 flex: 0 0 100%;
+            
             }
         }
     </style>
@@ -201,15 +208,15 @@
             </a></li>
             <li><a href="{% url 'warden_view_pending' %}">
                 <i class="fas fa-hourglass-half"></i>
-                <span class="nav-item">pending</span>
+                <span class="nav-item">Pending</span>
             </a></li>
             <li><a href="{% url 'warden_view_ongoing' %}">
                 <i class="fas fa-tasks"></i>
-                <span class="nav-item">ongoing</span>
+                <span class="nav-item">Ongoing</span>
             </a></li>
             <li><a href="{% url 'warden_view_completed' %}">
                 <i class="fas fa-check"></i>
-                <span class="nav-item">completed</span>
+                <span class="nav-item">Completed</span>
             </a></li>
           
             <li><a href="{% url 'logout' %}" class="logout">
@@ -280,54 +287,51 @@
         }
 
    // Line chart
-// Line chart
-var ctx = document.getElementById('lineChart').getContext('2d');
-var monthlyRequests = JSON.parse('{{ dict.monthly_requests | escapejs }}');
-var labels = monthlyRequests.map(function(item) { 
-    var date = new Date(item.month);
-    return date.toLocaleDateString('default', { month: 'long', year: 'numeric' }); 
-});
-var data = monthlyRequests.map(function(item) { return item.count; });
-var lineChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Maintenance Requests',
-            data: data,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(2, 247, 218, 0.99)',
-            borderWidth: 1,
-            pointrate: 'rgba(0, 0, 0, 0.1)',
-            pointBackgroundColor: 'rgba(2, 247, 218, 0.99)',
-            PointRadius: 7,
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            x: {
-                ticks: {
-                    color: 'rgba(2, 247, 218, 0.99)',
-                },
-              
-            },
-            y: {
-                beginAtZero: true,
-              
-                ticks: {
-                    color: 'rgba(2, 247, 218, 0.99)',
-                }
-            }
-        },
-        plugins: {
-            datalabels: {
-                display: true,
-                color: '#02fdfd'
-            }
-        }
-    }
-});
+   var ctx = document.getElementById('lineChart').getContext('2d');
+   var monthlyRequests = JSON.parse('{{ dict.monthly_requests | escapejs }}');
+   var labels = monthlyRequests.map(function(item) { 
+       var date = new Date(item.month);
+       return date.toLocaleDateString('default', { month: 'long', year: 'numeric' }); 
+   });
+   var data = monthlyRequests.map(function(item) { return item.count; });
+   var lineChart = new Chart(ctx, {
+       type: 'line',
+       data: {
+           labels: labels,
+           datasets: [{
+               label: 'Maintenance Requests',
+               data: data,
+               backgroundColor: 'rgba(246, 42, 7, 0.996)',
+               borderColor: 'rgba(246, 42, 7, 0.996)',
+               borderWidth: 4,
+               pointrate: 'rgba(246, 42, 7, 0.996)',
+               pointBackgroundColor: 'rgba(246, 42, 7, 0.996)',
+               PointRadius: 7,
+           }]
+       },
+       options: {
+           responsive: true,
+           scales: {
+               x: {
+                   ticks: {
+                       color: 'rgba(11, 28, 28, 0.996)',
+                   },
+               },
+               y: {
+                   beginAtZero: true,
+                   ticks: {
+                       color: 'rgba(11, 28, 28, 0.996)',
+                   }
+               }
+           },
+           plugins: {
+               datalabels: {
+                   display: true,
+                   color: '#02fdfd'
+               }
+           }
+       }
+   });
 // Donut charts
 var totalProblems = Number('{{ dict.total_problems }}');
 var pendingProblems = Number('{{ dict.pending_problems }}');
@@ -335,9 +339,9 @@ var inProgressProblems = Number('{{ dict.in_progress_problems }}');
 var completedProblems = Number('{{ dict.completed_problems }}');
 
 var chartsData = [
-    {id: 'donutChart1', label: 'Pending', value: pendingProblems},
-    {id: 'donutChart2', label: 'In Progress', value: inProgressProblems},
-    {id: 'donutChart3', label: 'Completed', value: completedProblems}
+    {id: 'donutChart1', label: 'Pending', value: pendingProblems,fontcolor:'white'},
+    {id: 'donutChart2', label: 'In Progress', value: inProgressProblems,fontcolor:'white'},
+    {id: 'donutChart3', label: 'Completed', value: completedProblems,fontcolor:'white'}
 ];
 
 chartsData.forEach(function(chartData) {
@@ -350,7 +354,8 @@ chartsData.forEach(function(chartData) {
                 data: [chartData.value, totalProblems - chartData.value],
                 backgroundColor: ['rgba(194, 20, 58, 0.582)', 'rgba(6, 146, 239, 0.562)'], // Change these values to adjust the colors
                 borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
-                borderWidth: 1
+                borderWidth: 1,
+                
             }]
         },
         options: {
@@ -365,6 +370,7 @@ chartsData.forEach(function(chartData) {
                 },
                 title: {
                     display: true,
+                    color: 'black',
                     text: chartData.value.toString(),
                     position: 'chartArea',
                     align: 'center',

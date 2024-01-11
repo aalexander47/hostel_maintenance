@@ -12,7 +12,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .navbar-content h1 {
+        margin: 0;
+    }
 
     * {
         margin: 0;
@@ -24,11 +33,11 @@
     .main {
         width: 100%;
         min-height: 100vh;
-        background: lightsteelblue;
+        background-image: url("{% static 'images/dorm.jpg' %}");
     }
 
     nav {
-        background: white;
+        background: linear-gradient(to bottom, #25264273, #000000);
         width: 100%;
         padding: 10px 10%;
         display: flex;
@@ -39,6 +48,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -61,10 +71,11 @@
 
     .sub-menu-wrap.open-menu {
         max-height: 400px;
+        z-index: 2;
     }
 
     .sub-menu {
-        background: white;
+        background:linear-gradient(to bottom, #25264273, #000000);
         padding: 20px;
         margin: 10px;
     }
@@ -130,6 +141,8 @@
         border-collapse: collapse;
         margin-top: 20px;
         margin-bottom: 20px;
+        backdrop-filter: blur(10px);
+        z-index: 1;
     }
 
     th,
@@ -140,9 +153,12 @@
     }
 
     th {
-        background-color: #f2f2f2;
-        font-weight: bold;
+        background: linear-gradient(to bottom, #3c3e808a, #000000);
+    
     }
+    tbody tr td {
+        color: white;
+    }   
 
     .navButton {
         height: 40px;
@@ -274,9 +290,9 @@
 
 </style>
 
-<body style="background-color: lightsteelblue;">
+<body>
     <div class="main">
-        <nav>
+        <nav class="navbar">
             <a href="https://www.mituniversity.ac.in"><img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
                     alt="college_logo" class="college_logo"></a>
@@ -290,7 +306,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3>{{user.username}}</h3>
+                        <h3 style="color: #f5f4f4;">{{user.username}}</h3>
                     </div>
                     <hr>
                     <a href="{% url 'profile' %}" class="sub-menu-link">
@@ -308,6 +324,10 @@
 
                 </div>
             </div>
+            <div class="navbar-content">
+                <h1>Student Dashboard</h1>
+            </div>
+
         </nav>
         {% csrf_token %}
         {% if messages %}
@@ -333,15 +353,15 @@
             <table>
                 <thead>
                     <tr>
-                        <th>assign_date</th>
-                        <th>completion_date</th>
-                        <th>Technician Name</th>
-                        <th>Hostel_name</th>
-                        <th>Issue Type</th>
-                        <th>Main Issue</th>
-                        <th>Report Issue</th>
-                        <th>Rating</th>
-                        <th>Action</th>
+                        <th style="color: #fefdfd;">assign_date</th>
+                        <th style="color: #fffcfc;">completion_date</th>
+                        <th style="color: #fefdfd;">Technician Name</th>
+                        <th style="color: #f9f6f6;">Hostel_name</th>
+                        <th style="color: #ffffff;">Issue Type</th>
+                        <th style="color: #f9f5f5;">Main Issue</th>
+                        <th style="color: #f8f5f5;">Report Issue</th>
+                        <th style="color:#f5f4f4">Rating</th>
+                        <th style="color: #f6f3f3;">Action</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -15,6 +15,7 @@
 
     #college_logo {
         height: 40px;
+        border-radius: 50%;
     }
 
     #user_profile_img {
@@ -29,6 +30,7 @@
         font-family: 'Rethink Sans', sans-serif;
         font-weight: 800;
         font-size: medium;
+        color: aliceblue;
     }
 
     @media (max-width: 768px) {}
@@ -77,7 +79,7 @@
         background-color: #45a049;
     }
     body {
-        background-image: url("{% static 'images/WPA.jpg' %}");
+        background-image: url("{% static 'images/dorm.jpg' %}");
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -93,7 +95,7 @@
 
 <body >
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background: linear-gradient(to bottom, #3c3e808a, #000000)">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background: linear-gradient(to bottom, #716471f4, #000000)">
             <div class="container-fluid">
                 <a href="https://www.mituniversity.ac.in"><img
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s"
@@ -112,6 +114,7 @@
     </header>
 
     <main class="parent_container">
+        <br>
         <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
             <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
             <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">

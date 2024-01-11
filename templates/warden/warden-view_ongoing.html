@@ -11,7 +11,8 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
 
     * {
         margin: 0;
@@ -30,8 +31,8 @@
 
     .main {
         width: 100% ;
-        min-height: 100vh;
-        background-image: url("{% static 'images/WPA.jpg' %}");
+        min-height: 110vh;
+        background-image: url("{% static 'images/bag.jpg' %}");
         background-size: cover;
         background-position: center;
     }
@@ -48,6 +49,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -190,6 +192,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
         backdrop-filter: blur(10px);
+        background: linear-gradient(to bottom, #25264273, #000000);
     }
 
     th,
@@ -232,6 +235,9 @@
     tbody tr td {
         color: white;
     }
+    th a {
+        text-decoration: none;
+    }
 </style>
 
 <body >
@@ -271,11 +277,12 @@
         </nav>
 
         <main class="parent_container">
+            <br>
             <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
                 <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
                 <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
             </form>
-            <h1 style="color: aliceblue;">ongoing - Lists </h1>
+            <h1 style="color: rgb(11, 11, 11);">ongoing - Lists </h1>
             <table >
                 <thead>
                     <tr>
@@ -323,7 +330,7 @@
                     <a href="?page={{ maintenance_requests.previous_page_number }}">previous</a>
                     {% endif %}
 
-                    <span class="current" style="color: aliceblue;">
+                    <span class="current" style="color: rgb(2, 2, 2);">
                         Page {{ maintenance_requests.number }} of {{ maintenance_requests.paginator.num_pages }}.
                     </span>
 

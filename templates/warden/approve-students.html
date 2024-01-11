@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
     * {
         margin: 0;
@@ -32,7 +32,7 @@
     .main {
         width: 100% ;
         min-height: 100vh;
-        background-image: url("{% static 'images/WPA.jpg' %}");
+        background-image: url("{% static 'images/bag.jpg' %}");
         background-size: cover;
         background-position: center;
     }
@@ -49,6 +49,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -189,6 +190,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
         backdrop-filter: blur(10px);
+        background: linear-gradient(to bottom, #25264273, #000000);
     }
 
     th,
@@ -269,7 +271,7 @@
                     <div class="user_info">
                         <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
                             class="profile_img">
-                        <h3 style="color: #f3f0f0;">{{request.user.username}}</h3>
+                        <h3 style="color: #e6e1e1;">{{request.user.username}}</h3>
                     </div>
                     <hr>
                     <a href="{% url 'profile' %}" class="sub-menu-link">
@@ -309,6 +311,7 @@
 
 
         <main class="parent_container">
+            <h1 style="color: #0b0b0b;">Student-Approval</h1>
             <table >
                 <thead>
                     <tr>
@@ -353,7 +356,7 @@
                     <a href="?page={{ students.previous_page_number }}">previous</a>
                 {% endif %}
         
-                <span class="current" style="color: #fffbfb;">
+                <span class="current" style="color: #060606;">
                     Page {{ students.number }} of {{ students.paginator.num_pages }}.
                 </span>
         

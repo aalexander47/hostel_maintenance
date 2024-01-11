@@ -11,6 +11,7 @@
  
     <!--Stylesheet-->
     <style media="screen">
+        @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Nunito:wght@200;300;400;600;700&display=swap');
         *,
         *:before,
         *:after {
@@ -20,10 +21,12 @@
         }
         body {
             min-height: 100vh;
-            background-image: url("{% static 'images/TOC.jpg' %}");
+            background-image: url("{% static 'images/staff.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
+            font-family: 'Aboreto', system-ui;
+           
         }
 
         form {
@@ -36,7 +39,7 @@
             left: 50%;
             border-radius: 10px;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.982);
             box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
             padding: 50px 35px;
         }
@@ -55,7 +58,7 @@
             margin-top: 30px;
             font-size: 16px;
             font-weight: 500;
-            color: #ffffff;
+            color: #0b0a0a;
         }
 
         input {
@@ -68,6 +71,7 @@
             margin-top: 8px;
             font-size: 14px;
             font-weight: 300;
+            color: #0a0a0a;
         }
 
         ::placeholder {
@@ -93,7 +97,7 @@
             margin-top: 20px;
             font-size: 16px;
             font-weight: 500;
-            color: #ffffff;
+            color: #141414;
         }
 
         select#issue {
@@ -126,7 +130,7 @@
 
     <form method="POST">
         {% csrf_token %}
-        <h3 style="color: azure;">Staff - Login Here</h3>
+        <h3 style="color: rgb(7, 7, 7);">Staff - Login Here</h3>
 
 
         <label for="username">Username</label>

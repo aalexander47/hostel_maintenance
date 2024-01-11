@@ -11,7 +11,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Rethink+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
     * {
         margin: 0;
@@ -25,13 +25,14 @@
         margin: 0;
         padding: 0;
         overflow: auto;
+        
     }
 
 
     .main {
         width:100%;
-        min-height: 100vh;
-        background-image: url("{% static 'images/WPA.jpg' %}");
+        min-height: 110vh;
+        background-image: url("{% static 'images/bag.jpg' %}");
         background-size: cover;
         background-position: center;
     }
@@ -48,6 +49,7 @@
 
     .college_logo {
         width: 50px;
+        border-radius: 50%;
     }
 
     .user_pic {
@@ -176,12 +178,11 @@
 
     h1 {
         font-family: 'Poppins', sans-serif;
-        font-family: 'Rethink Sans', sans-serif;
-        font-weight: 800;
+        font-weight: 600;
         font-size: 24px;
         margin-top: 20px;
         margin-bottom: 20px;
-        color: #fcfcfc;
+        color: #010101;
     }
 
     table {
@@ -190,6 +191,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
         backdrop-filter: blur(10px);
+        background: linear-gradient(to bottom, #25264273, #000000);
     }
 
     th,
@@ -201,7 +203,7 @@
 
     th {
         background: linear-gradient(to bottom, #25264273, #000000);
-        font-weight: bold;
+       
     }
 
     .navButton {
@@ -239,6 +241,9 @@
     }
     tbody tr td {
         color: white;
+    }
+    th a {
+        text-decoration: none;
     }
 
 /* CSS for small screens/mobile phones */
@@ -281,6 +286,7 @@
         </nav>
 
         <main class="parent_container">
+            <br>
             <form method="get" action="" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
                 <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
                 <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
@@ -328,7 +334,7 @@
                     <a href="?page={{ students.previous_page_number }}">previous</a>
                     {% endif %}
 
-                    <span class="current" style="color: #f9f7f7;">
+                    <span class="current" style="color: #040404;">
                         Page {{ students.number }} of {{ students.paginator.num_pages }}.
                     </span>
 

@@ -9,12 +9,14 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <title>Hostel Maintenance</title>
     <style>
+
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         
         body {
-                font-family: Arial, sans-serif;
+                font-family: 'Poppins', sans-serif;
                 margin: 0;
                 padding: 0;
-                background-image: url("{% static 'images/WPA.jpg' %}");
+                background-image: url("{% static 'images/main.jpg' %}");
                 background-size: cover;
                 background-position: center;
         }
@@ -29,9 +31,7 @@
         }
         .navbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(51, 51, 51, 0.7);
+            background-color: rgba(51, 51, 51, 0.455);
             color: #fff;
             padding: 10px 20px;
             position: fixed;
@@ -39,6 +39,11 @@
             top: 0;
             backdrop-filter: blur(10px);
             z-index: 1000;
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            backdrop-filter: blur(10px);
+
         }
         .navbar .logo {
             display: flex;
@@ -47,6 +52,7 @@
         .navbar .logo img {
             height: 70px;
             margin-right: 10px;
+            border-radius: 50%;
         }
         #main {
             opacity: 0;
@@ -54,14 +60,18 @@
             padding-top: 150px;
         }
         .box {
-            width: 30%;
+            width: 20%;
             padding: 20px;
             margin-bottom: 10px;
-            background-color: #fff;
+            background-color: #ffffff5e;
+            border: 1px solid #f0f1f2;
+            backdrop-filter: blur(10px);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             flex: 1; /* This will make each box take up an equal amount of space */
             margin: 10px;
             min-width: 200px;
+            border-radius:10px ;
+            
         }
         .box-container {
             display: flex;
@@ -104,55 +114,8 @@
             100% { transform: rotate(360deg); }
         }
 
-        footer {
-            
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            background-color: #212324;
-            padding-top: 70px;
-            height: 250px;
-            
-         }
-        
-         footer a {
-            display: block;
-            text-decoration: underline;
-            color: #f0f1f2;
-            margin-bottom: 10px;
-         }
-        
-         footer a:hover {
-            color: #007bff;
-         }
-        
-         .column {
-            flex: 0 0 33.3333%;
-            max-width: 33.3333%;
-         }
-        
-         .column:nth-child(3n+1) {
-            margin-left: 16.6667%;
-         }
-        
-         .column a img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
-        footer h2{
-            padding-bottom: 100px;
 
-        }
-       
     
-
-        @media (max-width: 800px) {
-            footer {
-                flex-direction: column;
-            }
-        }
-
 
     </style>
 </head>
@@ -162,36 +125,29 @@
         <div class="logo">
             {% load static %}
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNhuySjKGLqtjLA2ZNhJJ4zU4MCe7o6W0yuj7IkLGTA&s" alt="Logo">
-            <div>
-                <h1>MIT </h1>
-                <p>Maintenance</p>
+            <div class="main-title">
+                <h1>MIT ART, DESIGN AND TECHNOLOGY </h1>
+                
             </div>
         </div>
     </div>
 
     <div id="loader"></div>
     <div class="container" id="main">
-        <h1>Welcome to the Hostel Maintenance Website</h1>
+        <h1>Hostel Maintenance  </h1>
         <div class="box-container">
             <div class="box">
                 <a href="stafflogin">
                     <i class="fas fa-user-tie"></i>
                     <h2>Staff Login</h2>
-                    <p>Login </p>
+                    <span>Login Here </span>
                 </a>
             </div>
-            <!-- <div class="box">
-                <a href="/technician/technicianlogin">
-                    <i class="fas fa-tools"></i>
-                    <h2>Technician</h2>
-                    <p>Login here.</p>
-                </a>
-            </div> -->
             <div class="box">
                 <a href="student/studentlogin">
                     <i class="fas fa-user-graduate"></i>
                     <h2>Student</h2>
-                    <p>login here</p>
+                    <span>Login Here</span>
                 </a>
             </div>
         </div>
