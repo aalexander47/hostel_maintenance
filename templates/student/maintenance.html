@@ -142,7 +142,14 @@
  
     }
     .message.error{
-        color: red;}
+        color: red;
+    }
+    .position-bottom-left {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        margin-left: 20px; /* Adjust this value as needed */
+    }
     </style>
 </head>
 
@@ -250,6 +257,8 @@
 
 
         </form>
+        <button type="button" onclick="window.history.back()" class="btn btn-success position-bottom-left">Previous</button>
+     
     </main>
 
     <footer></footer>
