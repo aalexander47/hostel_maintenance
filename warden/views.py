@@ -295,7 +295,12 @@ def change_password(request):
             user.set_password(new_password)
             user.save()
             messages.success(request, 'Password updated successfully')
-            return redirect('profile')
+            if user.is_student:
+                return redirect('studentlogin')
+            elif user.is_warden:
+                return redirect('stafflogin')
+            elif user.is_technician:
+                return redirect('stafflogin')
         else:
             messages.error(request, 'Current password is incorrect')
     return render(request, 'profile.html')

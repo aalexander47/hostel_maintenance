@@ -134,7 +134,6 @@ def complaints_view(request):
    
     return render(request, 'student/complaints_view.html', {'complaints': complaints})
 
-@login_required(login_url='studentlogin')
 
 
 @login_required(login_url='studentlogin')
