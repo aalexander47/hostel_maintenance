@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <title>Hostel_Login_Form</title>
+    {%load static%}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+
+
+ 
+    <!--Stylesheet-->
+    <style media="screen">
+        @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Nunito:wght@200;300;400;600;700&display=swap');
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background-image: url("{% static 'images/student.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            font-family: 'Aboreto', system-ui;
+           
+        }
+
+        form {
+            height: 510px;
+            width: 400px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.982);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+        }
+
+    
+
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            color: #040404;
+        }
+
+        ::placeholder {
+            color: #e5e5e5;
+        }
+
+        button {
+            margin-top: 50px;
+            width: 100%;
+            background-color: #5ced07f5;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+
+        label[for="issue"] {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        select#issue {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            color: #ffffff;
+        }
+
+        select#issue option {
+            background-color: #080710;
+            color: #ffffff;
+        }
+
+        select#issue:focus {
+            outline: none;
+            border: 2px solid #23a2f6;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .register-prompt {
+            color: aliceblue;
+        }
+        
+        .register-link {
+            color: #e5e5e5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="POST">
+        {% csrf_token %}
+        <h3 style="color: azure;">Student Login</h3>
+
+
+        <label for="username">Username</label>
+        <input type="text" placeholder="Enter username" id="username" name="username">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name="password">
+        <button type="submit">Log In</button>
+        <p class="register-prompt">Don't have an account? <a href="/student/studentregister" class="register-link">Register here</a></p>
+
+
+        </div>
+    </form>
+
+
+</body>
+
+</html>

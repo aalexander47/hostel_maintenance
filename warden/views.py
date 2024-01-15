@@ -44,6 +44,9 @@ def main(request):
         return HttpResponseRedirect('afterlogin')  
     return render(request, 'warden/main.html') #{'trigger_refresh':trigger_refresh}
 
+
+@login_required(login_url='stafflogin')
+@user_passes_test(is_warden)
 def student_approve(request):
     return render(request, 'warden/approve.html')
 
@@ -65,55 +68,12 @@ def afterlogin(request):
         return redirect('wardendashboard')
     
     
-
+@login_required
 def profile(request):
     return render(request,'warden/profile.html')
 
-# def logout(request):
-#     return redirect('main')
-
-# @login_required
-# def afterlogin(request):
-#     if is_student(request.user):
-#         return redirect('student/studentdashboard')
-#     elif is_technician(request.user):
-#         return redirect('technician/techniciandashboard')
-#     return redirect('wardendashboard')
 
 
-def wardenregister(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        email = request.POST['email']  # Define the variable "email"
-        if password1 == password2:
-            if User.objects.filter(username=username).exists():
-                messages.error(request, 'Username already exists.')
-            elif User.objects.filter(email=email).exists():
-                messages.error(request, 'Email already exists.')
-            else:
-                user = User.objects.create_superuser(username=username, email=email, password=password1)
-                my_student_group = Group.objects.get_or_create(name='WARDEN')
-                my_student_group[0].user_set.add(user)
-                user.save()
-                messages.success(request, 'Account created for ' + username + '!')
-                return redirect('wardenregister')
-        else:
-            messages.error(request, 'Passwords do not match.')
-    return render(request, 'warden/warden_register.html')
-
-def wardenlogin(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('wardendashboard')
-        else:
-            messages.error(request, 'Invalid username or password.')
-    return render(request,'warden/warden-login.html')
 @login_required(login_url='stafflogin')
 @user_passes_test(is_warden)
 def wardendashboard(request):
