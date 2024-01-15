@@ -295,11 +295,11 @@ def change_password(request):
             user.set_password(new_password)
             user.save()
             messages.success(request, 'Password updated successfully')
-            if user.is_student:
+            if user.groups.filter(name='STUDENT').exists():
                 return redirect('studentlogin')
-            elif user.is_warden:
+            elif user.groups.filter(name='TECHNICIAN').exists():
                 return redirect('stafflogin')
-            elif user.is_technician:
+            else:
                 return redirect('stafflogin')
         else:
             messages.error(request, 'Current password is incorrect')
