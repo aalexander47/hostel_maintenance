@@ -30,11 +30,21 @@
         box-sizing: border-box;
     }
 
-    .main {
-        width: 100%;
-        min-height: 100vh;
+    body {
+        min-height: 110vh;
         background-image: url("{% static 'images/dorm.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
+    html {
+        height: 100%;
+    }
+  
 
     nav {
         background: linear-gradient(to bottom, #25264273, #000000);
@@ -325,7 +335,7 @@
                 </div>
             </div>
             <div class="navbar-content">
-                <h1>Student Dashboard</h1>
+                <h1 style="color: #dddddd;">Student Dashboard</h1>
             </div>
 
         </nav>
