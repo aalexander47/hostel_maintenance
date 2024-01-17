@@ -15,6 +15,7 @@ from django.contrib import messages
 from warden.models import Warden
 from student.models import Student
 from technician.models import Feedback
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -24,6 +25,9 @@ def is_student(user):
 
 def is_technician(user):
     return user.groups.filter(name='TECHNICIAN').exists()
+
+def is_technicianhead(user):
+    return user.groups.filter(name='TECHNICIANHEAD').exists()
 
 def studentregister(request):
     if request.method == 'POST':
@@ -49,8 +53,17 @@ def studentdashboard(request):
 
 
 
-
-
+@user_passes_test(is_technicianhead)
+@csrf_exempt
+def toggle_priority(request, pk):
+    req = MaintenanceRequest.objects.get(pk=pk)
+    req.Priority = not req.Priority
+    req.save()
+    if req.Priority:
+        messages.success(request, 'Priority set to high ')
+    else:
+        messages.success(request, 'Priority set to normal ')
+    return JsonResponse({'success': True})
 
 
 from django.http import JsonResponse
@@ -67,27 +80,34 @@ def update_status(request, request_id):
             maintenance_request.status = 'completed'
             if maintenance_request.completion_date is None:
                 maintenance_request.completion_date = timezone.now()
-                messages.success(request, 'Maintenance request completed successfully')
-                # Get student's email
-                email = maintenance_request.email
-                hostel = maintenance_request.hostel
-                room = maintenance_request.block_room
-                assign_date = maintenance_request.assign_date
-                
-                send_mail(
-                    'Maintenance Request Completed',
-                    'Your maintenance request has been completed that was submitted on {} ,\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
-                    settings.EMAIL_HOST_USER,
-                    [email],  # Wrap email in a list
-                    fail_silently=False,
-                )
+                maintenance_request.Duration = maintenance_request.completion_date - maintenance_request.assign_date
+            # If Priority is True, set it to False
+            if maintenance_request.Priority:
+                maintenance_request.Priority = False
+
+            maintenance_request.save()  # Don't forget to save the changes
+
+            messages.success(request, 'Maintenance request completed successfully')
+            # Get student's email
+            email = maintenance_request.email
+            hostel = maintenance_request.hostel
+            room = maintenance_request.block_room
+            assign_date = maintenance_request.assign_date
+
+            send_mail(
+                'Maintenance Request Completed',
+                'Your maintenance request has been completed that was submitted on {} ,\nHostel-Name :{} \nRoom-Block :{} \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .'.format(assign_date,hostel, room),
+                settings.EMAIL_HOST_USER,
+                [email],  # Wrap email in a list
+                fail_silently=False,
+            )
         else:
            messages.error(request, 'Only the technican who set the status to In-progress can set it to completed')
     elif maintenance_request.status == 'completed':
         if request.user == maintenance_request.technician:
             maintenance_request.status = 'completed'
             if maintenance_request.completion_date is None:
-                maintenance_request.completion_date = timezone.now()
+                maintenance_request.completion_date = timezone.now()                
         else:
             messages.error(request, 'Only the technican who set the status to In-progress can set it to completed')
     maintenance_request.save()
@@ -106,6 +126,7 @@ def get_user_profile(request):
 
 from .models import MaintenanceRequest
 from django.core.paginator import Paginator
+
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def complaints_view(request):

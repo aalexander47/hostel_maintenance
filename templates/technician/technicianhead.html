@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 {%load static%}
+{% load timedelta_filters %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Maintenance - Technician Dashboard    </title>
+    <title>Hostel Maintenance - Technician Head</title>
     {%load static%}
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Nunito:wght@200;300;400;600;700&display=swap');
@@ -216,12 +218,6 @@
     .navButton:hover {
         background-color: #45a049;
     }
-    .star-icon.gold {
-        color: gold;
-    }
-    .star-icon.grey {
-        color: grey;
-    }
     .messages .success {
 
         color: green;
@@ -245,6 +241,29 @@
     }
     tbody tr td {
         color: white;
+    }
+    .fa {
+        cursor: pointer;
+    }
+    
+    .fa.disabled {
+        cursor: not-allowed;
+        color: #ccc;
+    }
+    
+    .fa.fa-star {
+        color: gold;
+    }
+    .status-pending {
+        color: red;
+    }
+    
+    .status-in-progress {
+        color: yellow;
+    }
+    
+    .status-completed {
+        color: rgb(88, 228, 88);
     }
 </style>
 
@@ -289,7 +308,8 @@
                 <input type="text" name="q" placeholder="Search by name" style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
                 <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
             </form>
-            <h1>Technician - Dashboard</h1>
+            <a href="{% url 'export_to_excel' %}" class="btn btn-primary">Export to Excel</a>
+            <h1>Technician Head- Dashboard</h1>
             {% csrf_token %}
             {% if messages %}
                 {% for message in messages %}
@@ -311,7 +331,7 @@
             <table>
                 <thead>
                     <tr>
-
+                        <th><a href="?sort_by=Duration" style="color: rgb(255, 255, 255);">Duration</a></th>
                         <th><a href="?sort_by=name" style="color: rgb(245, 242, 242);">Name</a></th>
                         <th><a href="?sort_by=mobile_number" style="color: rgb(249, 241, 241);">Mobile No.</a></th>
                         <th><a href="?sort_by=hostel " style="color: rgb(255, 248, 248);">Hostel</a></th>
@@ -320,15 +340,16 @@
                         <th><a href="?sort_by=sub_issue" style="color: rgb(255, 254, 254);">Main Issue</a></th>
                         <th><a href="?sort_by=assign_date" style="color: rgb(255, 255, 255);">Assign Date</a></th>
                         <th><a href="?sort_by=status" style="color: rgb(251, 251, 251);">Status</a></th>
-                        <th style="color: aliceblue ;">Action</th>
                         <th><a href="#" style="color: rgb(251, 251, 251);">Priority</a></th>
                         
                     </tr>
                 </thead>
                 <tbody>
                     {% for request in maintenance_requests %}
+                   
                     <tr>
 
+                        <td>{{ request.Duration|format_timedelta }}</td>
                         <td>{{ request.name }}</td>
                         <td>{{ request.mobile_number }}</td>
                         <td>{{ request.hostel }}</td>
@@ -336,44 +357,29 @@
                         <td>{{ request.issue_type }}</td>
                         <td>{{ request.sub_issue }}</td>
                         <td>{{ request.assign_date }}</td>
-                        <td>{{ request.status }}</td>
+                        <td class="{% if request.status == 'pending' %}status-pending{% elif request.status == 'In-progress' %}status-in-progress{% elif request.status == 'completed' %}status-completed{% endif %}">{{ request.status }}</td>
                         <td>
-                            {% if request.status == 'pending' %}
-                            <form method="post" action="{% url 'update_status' request.id %}" class="status-form">
+                            <form method="post" action="{% url 'toggle_priority' request.id %}" class="status-form">
                                 {% csrf_token %}
+                                {% if request.Priority and request.status == 'completed' %}
+                                    <span class="star-icon" data-id="{{ request.id }}" style="color: grey;">★</span>
+                                {% elif request.Priority %}
+                                    <span class="star-icon" data-id="{{ request.id }}" style="color: gold;">★</span>
+                                {% else %}
+                                    <span class="star-icon" data-id="{{ request.id }}" style="color: grey;">☆</span>
+                                {% endif %}
                                 <input type="submit"
                                     style="background-color: rgb(245, 18, 10); width: 100px; height: 50px; border-radius: 10px; "
-                                    value="pending" class="status-btn" id="status-{{ request.id }}"
+                                    value="Urgent" class="status-btn" id="status-{{ request.id }}"
                                     data-id="{{ request.id }}">
                             </form>
-                            {% elif request.status == 'In-progress' %}
-                            <form method="post" action="{% url 'update_status' request.id %}" class="status-form">
-                                {% csrf_token %}
-                                <input type="submit"
-                                    style="background-color: rgb(249, 249, 17);width: 100px; height: 50px; border-radius: 10px; "
-                                    value="In Progress" class="status-btn" id="status-{{ request.id }}"
-                                    data-id="{{ request.id }}">
-                            </form>
-                            {% elif request.status == 'completed' %}
-                            <form method="post" action="{% url 'update_status' request.id %}" class="status-form">
-                                {% csrf_token %}
-                                <input type="submit"
-                                    style="background-color: rgb(29, 251, 29); width: 100px; height: 50px; border-radius: 10px; "
-                                    value="Completed" class="status-btn" id="status-{{ request.id }}"
-                                    data-id="{{ request.id }}" disabled>
-                            </form>
-                            {% endif %}
                         </td>
-                        <td>
-                            <span class="star-icon {% if request.Priority %}gold{% else %}grey{% endif %}">★</span>
-                        </td>
-                        
                     </tr>
-                    {% empty %}
+                {% empty %}
                     <tr>
                         <td colspan="6">No maintenance requests found</td>
                     </tr>
-                    {% endfor %}
+                {% endfor %}
                 </tbody>
 
             </table>
@@ -406,6 +412,17 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+document.querySelectorAll('.fa').forEach(function(star) {
+    star.addEventListener('click', function() {
+        fetch('/toggle_priority/' + star.dataset.id + '/', {method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                star.className = 'fa ' + (data.Priority ? 'fa-star' : 'fa-star-o');
+                alert('Priority has been ' + (data.Priority ? 'set' : 'unset') + '.');
+            });
+    });
+});
+
     $(document).ready(function () {
         $(".status-btn").click(function (e) {
             e.preventDefault();

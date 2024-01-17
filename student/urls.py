@@ -11,7 +11,7 @@ urlpatterns = [
     path('feedback_view/',views.feedback_view,name='feedback_view'),
     path('success', views.success, name='success'),
     
-    
-   path('update_status/<int:request_id>/', views.update_status, name='update_status'),
+    path('toggle_priority/<int:pk>/', views.toggle_priority, name='toggle_priority'),
+    path('update_status/<int:request_id>/', views.update_status, name='update_status'),
     path('get_user_profile/', views.get_user_profile, name='get_user_profile')
 ]

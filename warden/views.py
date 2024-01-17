@@ -16,6 +16,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.core.mail import send_mail
 
 
 
@@ -35,7 +36,8 @@ def is_technician(user):
 def is_warden(user):
     return user.groups.filter(name='WARDEN').exists()
 
-
+def is_technicianhead(user):
+    return user.groups.filter(name='TECHNICIANHEAD').exists()
 
 # Create your views here.
 def main(request):
@@ -63,6 +65,8 @@ def afterlogin(request):
             return render(request, 'student/studentregistration.html')
     elif is_technician(request.user):
         return redirect('technician/techniciandashboard')
+    elif is_technicianhead(request.user):
+        return redirect('technician/technicianhead')
     else:
         is_warden(request.user)
         return redirect('wardendashboard')
@@ -100,6 +104,9 @@ def logout_view(request):
             logout(request)
             return redirect('studentlogin')
 
+    elif is_technician(request.user):
+        logout(request)
+        return redirect('stafflogin')
     elif is_technician(request.user):
         logout(request)
         return redirect('stafflogin')
@@ -326,6 +333,9 @@ def approve_students(request):
                 student.approved = True
                 student.save()
                 messages.success(request, f'Student {student.username} has been approved.')
+                send_mail(
+                    f"Hello {student.username}, Your account has been approved. Please login to your account and change your password. Thank you!",
+                )
             elif action == 'delete':
                 student.delete()
                 messages.success(request, f'Student {student.username} has been deleted.')

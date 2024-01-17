@@ -41,7 +41,15 @@ class MaintenanceRequest(models.Model):
     completion_date = models.DateTimeField(blank=True, null=True)
     Student = models.ForeignKey(Student, on_delete=models.CASCADE)
     technician = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    
+    Priority = models.BooleanField(default=False)
+    Duration = models.DurationField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.assign_date and self.completion_date:
+            self.Duration = self.completion_date - self.assign_date
+        else:
+            self.Duration = None
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     
