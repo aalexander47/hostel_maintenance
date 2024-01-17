@@ -5,12 +5,15 @@ dj-database-url==2.1.0
 Django==5.0
 django-heroku==0.3.1
 django-mailgun-mime==0.1.7
+et-xmlfile==1.1.0
 gunicorn==21.2.0
 idna==3.6
+openpyxl==3.1.2
 packaging==23.2
 psycopg==3.1.16
 psycopg2==2.9.9
 python-decouple==3.8
+pytz==2023.3.post1
 requests==2.31.0
 sqlparse==0.4.4
 typing_extensions==4.9.0
