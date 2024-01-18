@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -17,6 +18,8 @@ from django.db.models.functions import TruncMonth
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 
@@ -324,18 +327,24 @@ def approve_students(request):
 
     if request.method == 'POST':
         student_id = request.POST.get('student_id')
+        email = request.POST.get('email')
         action = request.POST.get('action')
 
         if student_id and action:
             student = Student.objects.get(id=student_id)
+            
 
             if action == 'approve':
                 student.approved = True
                 student.save()
                 messages.success(request, f'Student {student.username} has been approved.')
                 send_mail(
-                    f"Hello {student.username}, Your account has been approved. Please login to your account and change your password. Thank you!",
-                )
+                'Account Approved !!',
+                'Your Account has been approved  \n \n\n\n\n\n\n\n \t this is a generated email || please do not reply \n\n\n\n\t\t\t\t   @fromsupportteam .',
+                settings.EMAIL_HOST_USER,
+                email,  # Wrap email in a list
+                fail_silently=False,
+            )
             elif action == 'delete':
                 student.delete()
                 messages.success(request, f'Student {student.username} has been deleted.')

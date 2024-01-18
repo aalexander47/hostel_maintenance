@@ -1,21 +1,16 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth.models import User, Group
 from openpyxl import Workbook
-from . forms import TechnicianRegistrationForm
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from student.models import MaintenanceRequest
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from datetime import datetime
 from pytz import timezone
 
 
-
-from django.http import HttpRequest  # Import the HttpRequest object
+  # Import the HttpRequest object
 
 def is_techician(user):
     return user.groups.filter(name='TECHNICIAN').exists() # Create your views here.
@@ -97,10 +92,6 @@ def technicianhead(request):
     return render(request, 'technician/technicianhead.html', {'maintenance_requests': maintenance_requests})
 
 
-from django.db.models.fields import DateField, DateTimeField
-from datetime import datetime
-from pytz import timezone
-
 def export_to_excel(request):
     wb = Workbook()
     ws = wb.active
@@ -132,3 +123,14 @@ def export_to_excel(request):
     wb.save(response)
 
     return response
+
+def update_message(request, request_id):
+    message = MaintenanceRequest.objects.get(id=request_id)
+    if request.method == 'POST' and MaintenanceRequest.status == 'In-progress' and MaintenanceRequest.technician == request.user:
+        new_message = request.POST.get('message')  # Get the new message from the form data
+        message.message = new_message
+        message.save()
+        messages.success(request, 'Message updated successfully!!!!.')
+    else:
+        messages.error(request,'Only the technician that is set to In-Progress can Edit the message  !!!!')
+    return redirect('techniciandashboard')  # Redirect to the dashboard  # Redirect to the dashboard# Redirect to the dashboard  # Redirect to the dashboard

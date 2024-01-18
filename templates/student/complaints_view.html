@@ -132,6 +132,7 @@
                     <th><a href="?sort_by=assign_date" style="color: rgb(245, 239, 239);">Assign Date</a></th>
                     <th><a href="?sort_by=completion_date" style="color: rgb(251, 248, 248);">Completion Date</a></th>
                     <th><a href="?sort_by=status" style="color: rgb(250, 250, 250);">Status</a></th>
+                    <th><a href="#" style="color: rgb(250, 250, 250);">Message</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -144,6 +145,7 @@
                         <td>{{ complaint.assign_date|date:"F d, Y" }}</td>
                         <td>{{ complaint.completion_date|date:"F d, Y"|default_if_none:"Not completed yet" }}</td>
                         <td>{{ complaint.status }}</td>
+                        <td>{{ complaint.message }}</td>
                     </tr>
                 {% empty %}
                     <tr>

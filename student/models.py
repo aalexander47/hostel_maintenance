@@ -43,13 +43,8 @@ class MaintenanceRequest(models.Model):
     technician = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     Priority = models.BooleanField(default=False)
     Duration = models.DurationField(null=True, blank=True)
+    message = models.TextField(blank=True, null=True,max_length=1000)
 
-    def save(self, *args, **kwargs):
-        if self.assign_date and self.completion_date:
-            self.Duration = self.completion_date - self.assign_date
-        else:
-            self.Duration = None
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     

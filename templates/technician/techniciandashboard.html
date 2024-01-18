@@ -322,6 +322,7 @@
                         <th><a href="?sort_by=status" style="color: rgb(251, 251, 251);">Status</a></th>
                         <th style="color: aliceblue ;">Action</th>
                         <th><a href="#" style="color: rgb(251, 251, 251);">Priority</a></th>
+                        <th><a href="#" style="color: rgb(251, 251, 251);">Custom Message</a></th>
                         
                     </tr>
                 </thead>
@@ -365,8 +366,19 @@
                             {% endif %}
                         </td>
                         <td>
-                            <span class="star-icon {% if request.Priority %}gold{% else %}grey{% endif %}">★</span>
+                            <span class="star-icon {% if request.Priority %}gold{% else %}grey{% endif %}" style="font-size: 30px;">★</span>
                         </td>
+
+                        <td colspan="5">
+                            <form method="post" action="{% url 'update_message' request.id %}">
+                                {% csrf_token %}
+                                <textarea id="message" name="message" rows="2" cols="70" style="width: 100%; height: 50px; margin-bottom: 5px;">{{ request.message }}</textarea>
+                                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                            </form>
+                        </td>
+
+    
+
                         
                     </tr>
                     {% empty %}
@@ -452,7 +464,6 @@
             location.reload();
         }
     }
-
 
 </script>
 

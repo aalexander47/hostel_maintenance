@@ -27,7 +27,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'django-insecure-n05s@k!axlnvo38%c%mw%%8p3lc0&0k3j6&v6le1_825)j_ig%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.mithostel-maintenance.me','127.0.0.1']
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'warden.apps.WardenConfig',
     'technician.apps.TechnicianConfig',
+    'jazzmin',
     'student',
 ]
 
@@ -160,4 +161,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD =config('EMAIL_HOST_PASSWORD')
 
-
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
