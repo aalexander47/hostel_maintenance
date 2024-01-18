@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'warden.apps.WardenConfig',
     'technician.apps.TechnicianConfig',
-    'jazzmin',
     'student',
 ]
 
