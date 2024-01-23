@@ -27,7 +27,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'django-insecure-n05s@k!axlnvo38%c%mw%%8p3lc0&0k3j6&v6le1_825)j_ig%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.mithostel-maintenance.me','127.0.0.1']
 
@@ -96,10 +96,10 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd81piajlihrga4',
-        'USER': 'wkdqjopvzifmii',
-        'PASSWORD': '76556a0458a36c3b20d82551eaca08b7f1930371896909bfad799ef79345381e',
-        'HOST': 'ec2-44-214-132-149.compute-1.amazonaws.com',
+        'NAME': 'dd1h96mgtqe242',
+        'USER': 'ysjkyblfwoiott',
+        'PASSWORD': '7a69f78669b3be9ffe90087718b5518c6c135aa754798343e534b4a4aa8f47d9',
+        'HOST': 'ec2-44-194-65-158.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
